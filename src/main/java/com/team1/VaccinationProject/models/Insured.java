@@ -1,8 +1,7 @@
+/* Class: for Insured citizen or Doctor */
+/* It shares some common fields with the 'Doctor' class, so we make this class a Parent/Superclass
+ * and as a subclass 'Doctor', which will inherit the common elements from the Superclass. */
 package com.team1.VaccinationProject.models;
-
-/* Κλάση: για τον ασφαλισμένο πολίτη ή γιατρό */
-/* Διατηρεί ορισμένα κοινά πεδία με την κλάση 'Doctor', γι'αυτό και ορίζουμε την παρούσα κλάση ως Γονική/Υπερ-κλάση
-* και ως υποκλάση την 'Doctor', η οποία θα κληρονομεί τα κοινά στοιχεία απο την Υπερκλάση. */
 import java.time.LocalDate;
 
 public class Insured {
@@ -13,6 +12,7 @@ public class Insured {
     private String surname;
     private LocalDate birthday;
     private String email;
+    //private Boolean hasReservation;  //boolean variable to show if a citizen has a reservation for vaccination
 
     //Constructor no. 1
     public Insured(String afm, String amka, String name, String surname, LocalDate birthday, String email) {
@@ -24,13 +24,15 @@ public class Insured {
         this.email = email;
     }
 
-    //2. Constructor no. 2(overload - use for testing in main class)
+    //2. Constructor no. 2 (overload - use for main class)
     public Insured(String name, LocalDate birthday){
         this.name = name;
         this.birthday = birthday;
     }
 
-    //Setter and Getter
+
+    //Getters and Setters
+
     public String getAfm() {
         return afm;
     }
@@ -78,4 +80,9 @@ public class Insured {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Boolean hasReservation(){
+        return false;
+    }
+
 }

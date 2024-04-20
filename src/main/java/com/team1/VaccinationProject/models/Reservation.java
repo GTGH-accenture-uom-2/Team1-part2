@@ -1,3 +1,5 @@
+/* Class: Reservation */
+
 package com.team1.VaccinationProject.models;
 
 public class Reservation {
@@ -5,6 +7,7 @@ public class Reservation {
     private Timeslot timeslot;
 
 
+    //Reservation Constructor
     public Reservation(Insured insured, Timeslot timeslot){
         this.insured = insured;
         this.timeslot = timeslot;
