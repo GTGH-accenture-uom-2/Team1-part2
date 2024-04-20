@@ -1,6 +1,8 @@
+package com.team1.VaccinationProject.models;
+
+
 /* Class: Vaccination */
 
-package com.team1.VaccinationProject.models;
 import java.time.LocalDate;
 
 public class Vaccination {
