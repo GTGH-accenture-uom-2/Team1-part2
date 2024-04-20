@@ -1,21 +1,21 @@
+/* Class: Vaccination Center */
+
 package com.team1.VaccinationProject.models;
-
-/* Κλάση: Για το εμβολιαστικό κέντρο  */
-
 import java.util.ArrayList;
 
 public class VaccinationCenter {
     private String code;
-    private String address;
+    private String address;  // Corrected instance variable name
     private ArrayList<Timeslot> timeslots;
 
+    // Constructor
     public VaccinationCenter(String code, String address, ArrayList<Timeslot> timeslots) {
         this.code = code;
         this.address = address;
         this.timeslots = timeslots;
     }
 
-    //Setters and Getters
+    // Getter methods
     public String getCode() {
         return code;
     }
@@ -28,6 +28,7 @@ public class VaccinationCenter {
         return timeslots;
     }
 
+    // Setter methods
     public void setCode(String code) {
         this.code = code;
     }

@@ -1,32 +1,40 @@
-package com.team1.VaccinationProject.models;/* Κλάση: Για τη χρονική θυρίδα εμβολιασμού  */
+/* Class: Timeslot */
 
+package com.team1.VaccinationProject.models;
 import java.time.LocalDate;
 
 public class Timeslot {
-    private LocalDate day;
-    private LocalDate month;
-    private LocalDate year;
+    private LocalDate date;
     private int hour;
     private int minutes;
     private int startMinute;
     private int endMinute;
     private Doctor doctor;
+    private Boolean hasReservation = false;
 
     //Constructor No. 1
-    public Timeslot(LocalDate day, LocalDate month, LocalDate year, int hour,
+    public Timeslot(LocalDate date, int hour,
                     int minutes, int startMinute, int endMinute,
                     Doctor doctor){
-        this.day = day;
-        this.month = month;
-        this.year = year;
+        this.date = date;
         this.hour = hour;
         this.minutes = minutes;
         this.startMinute = startMinute;
         this.endMinute = endMinute;
         this.doctor = doctor;
     }
+
     //Constructor No. 2
     public Timeslot(){}
+
+    //Constructor No. 3
+    public Timeslot(LocalDate date, int hour, int minutes, int startMinute, int endMinute) {
+        this.date = date;
+        this.hour = hour;
+        this.minutes = minutes;
+        this.startMinute = startMinute;
+        this.endMinute = endMinute;
+    }
 
     //Method to assign a doctor to this timeslot
     public void assignDoctor(Doctor dr){
@@ -34,26 +42,15 @@ public class Timeslot {
     }
 
     // Getters and setters
-    public LocalDate getDay() {
-        return day;
+
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDay(LocalDate day) {
-        this.day = day;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public LocalDate getMonth() {
-        return month;
-    }
-    public void setMonth(LocalDate month) {
-        this.month = month;
-    }
-    public LocalDate getYear() {
-        return year;
-    }
-    public void setYear(LocalDate year) {
-        this.year = year;
-    }
     public int getHour() {
         return hour;
     }
@@ -94,12 +91,19 @@ public class Timeslot {
         this.doctor = doctor;
     }
 
+    public Boolean getHasReservation() {
+        return hasReservation;
+    }
+
+    public void setHasReservation(Boolean hasReservation) {
+        this.hasReservation = hasReservation;
+    }
+
     public String toString() {
-        return ("Day: " + day + ", Month: " + month + ", Year: " + year + ", " +
-                "Hour: " + hour + ", Minutes: " + minutes + ", " +
+        return ("Date: " + date +
+                ", Hour: " + hour + ", Minutes: " + minutes + ", " +
                 "StartMinute: " + startMinute + ", EndMinute: " + endMinute + "\n");
     }
 
 
 }
-

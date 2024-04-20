@@ -1,9 +1,9 @@
 package com.team1.VaccinationProject.controllers;
 
-
 import com.team1.VaccinationProject.models.Insured;
 import com.team1.VaccinationProject.services.InsuredServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -16,7 +16,6 @@ public class InsuredController {
 
     @Autowired
     InsuredServices insuredServices;
-
 
     //------------- C.R.U.D. Insured Controller -------------
 
