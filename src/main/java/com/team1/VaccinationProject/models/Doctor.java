@@ -1,7 +1,7 @@
 /* Class: Doctor */
 /* as Sub-class of Superclass: 'Insured' */
-
 package com.team1.VaccinationProject.models;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -16,6 +16,11 @@ public class Doctor extends Insured{
         super(afm, amka, name, surname, birthday, email);
         this.timeslots = timeslots;
     }
+
+    public Doctor() {
+        super();
+    }
+
     //Method to add/assign new timeslots to a doctor
     public void addTimeslot(Timeslot timeslot){
         timeslots.add(timeslot);
