@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class Timeslot {
     private LocalDate date;
-   // private int hour;
-  //  private int minutes;
+    private int hour;
+    private int minutes;
     private String startMinute;
     private String endMinute;
     private Doctor doctor;

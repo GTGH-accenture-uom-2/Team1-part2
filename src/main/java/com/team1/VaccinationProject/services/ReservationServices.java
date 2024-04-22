@@ -25,41 +25,7 @@ public class ReservationServices {
     //------------- C.R.U.D. Reservation Services -------------
 
     //1. create the following method - connected with method inside 'ReservationController'
-    public Reservation createReservation(Reservation reservation) {
-        //store a reservation:
-        Reservation newReservation = new Reservation();
 
-        // let's get the Insured from the Reservation class
-        Insured insured = reservation.getInsured();
-        // let's define the Insured' AMKA number
-        insured.setAmka(reservation.getInsured().getAmka());
-        // let's define the Doctor
-        newReservation.setDoctor(reservation.getDoctor());
-
-        // let's search a selected timeslot
-        Timeslot timeslot = reservation.getTimeslot();
-        for (Timeslot t : timeslotList) {
-            if (t.getDate().equals(reservation.getTimeslot().getDate())) {
-                timeslot = t;
-                break;
-            }
-        }
-        if (timeslot == null || timeslot.getHasReservation()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid or already booked timeslot");
-        }
-
-        // let's define the timeslot
-        reservation.setTimeslot(timeslot);
-
-        //every time a reservation is being created, this will be saved in a list:
-        reservationList.add(newReservation);
-
-        //timeslot not available anymore
-        timeslot.setHasReservation(true);
-
-        return reservation;
-
-    }
 
     // the method searches a reservation based on date of a timeslot
     public Reservation getReservationByDate(LocalDate date) {

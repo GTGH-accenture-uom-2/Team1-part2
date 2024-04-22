@@ -34,10 +34,10 @@ public class ReservationController {
 
     //1. firstly, let's create Reservations (empty items)
     @PostMapping
-    public Reservation createReservation(@RequestBody Reservation reservation) {
-
-         return reservationServices.createReservation(reservation);
-    }
+//    public Reservation createReservation(@RequestBody Reservation reservation) {
+//
+//         return reservationServices.createReservation(reservation);
+//    }
 
     @GetMapping("/amka")
     public Reservation getReservationByAmka(@RequestParam String amka) {
