@@ -27,7 +27,7 @@ public class DoctorServices {
             }
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                             "Doctor with AMKA: " + amka + " does not exist");
+                                             "Doctor with AMKA: [" + amka + "] does not exist");
     }
 
 
@@ -36,19 +36,4 @@ public class DoctorServices {
     }
 
 
-//    public Doctor updateDoctor(String amka, String name, String surname, LocalDate birthday, String email) {
-//        Doctor doctor = getDoctorByAmka(amka);
-//        if (name != null) doctor.setName(name);
-//        if (surname != null) doctor.setSurname(surname);
-//        if (birthday != null) doctor.setBirthday(birthday);
-//        if (email != null) doctor.setEmail(email);
-//        return doctor;
-//
-//    }
-
-//    public List<Doctor> deleteDoctor(String amka) {
-//        Doctor doctor = getDoctorByAmka(amka);
-//        doctorList.remove(doctor);
-//        return doctorList;
-//    }
 }

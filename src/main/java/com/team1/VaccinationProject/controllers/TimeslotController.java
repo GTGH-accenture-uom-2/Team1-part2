@@ -23,34 +23,32 @@ public class TimeslotController {
     public List<Timeslot> createTimeslot(@RequestBody Timeslot timeslot) {
         return timeslotServices.createTimeslot(timeslot);
     }
-    //δημιουργια νεας μεθοδου που να επσιτρεφει ενα timeslot και ΟΧΙ λιστα
 
     //2. let's get EMPTY timeslots' list based on 'Date'
-    @GetMapping("/date")
+    @GetMapping("/listbydate")
     public List<Timeslot> findTimeslotByDate(@RequestParam LocalDate date) {
         return timeslotServices.findTimeslotByDate(date);
     }
 
-
-//
-//    @GetMapping("/")
-//    public Timeslot getTimeslotByDate(@RequestParam LocalDate date) {
-//        return timeslotServices.getTimeslotByDate(date);
-//    }
-//
-
-
-
+    //++++++++++++
+    //create Timeslot method for returning a timeslot object - not a list of timeslots
+    @GetMapping("/onebydate")
+    public Timeslot getTimeslotByDateHour(@RequestParam LocalDate date,
+                                      @RequestParam String startMinute) {
+        return timeslotServices.getTimeslotByDateHour(date, startMinute);
+    }
 
     @GetMapping("/doctor")
-    public Timeslot getTimeslotByDoctor(@RequestParam String dAmka, @RequestParam String dName) {
-        return timeslotServices.getTimeslotByDoctor(dAmka, dName);
+    public Timeslot getTimeslotByDoctor(@RequestParam String dAmka) {
+        return timeslotServices.getTimeslotByDoctor(dAmka);
     }
 
     @GetMapping("/all")
     public List<Timeslot> getAllTimeslots() {
         return timeslotServices.getAllTimeslots();
     }
+
+
 
 //    //Update timeslot date variable to localdate
 //    @PutMapping

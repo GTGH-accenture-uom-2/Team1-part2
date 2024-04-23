@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class Config {
@@ -15,7 +16,7 @@ public class Config {
     * Doctors => http://localhost:8080/doctor/all
     * Timeslots => http://localhost:8080/timeslot/all
     * Vaccinations => http://localhost:8080/vaccination/all
-    * */
+    * Reservations => */
 
     @Bean
     public CommandLineRunner commandLineRunner(DoctorServices doctorServices, InsuredServices insuredServices,
@@ -24,32 +25,37 @@ public class Config {
                                                VaccinationServices vaccinationServices) {
         return args -> {
             //Add four insured
-            insuredServices.createInsured(new Insured("afm1", "amka1", "Giannis", "A", LocalDate.of(1900,01, 01), "email1"));
-            insuredServices.createInsured(new Insured("afm2", "amka2", "Antonia", "P", LocalDate.of(1920,01, 01), "email2"));
-            insuredServices.createInsured(new Insured("afm3", "amka3", "Eleni", "T", LocalDate.of(1940,01, 01), "email3"));
-            insuredServices.createInsured(new Insured("afm4", "amka4", "Lina", "K", LocalDate.of(1960,01, 01), "email4"));
+            insuredServices.createInsured(new Insured("AFM_1", "AMKA_1", "Giannis", "A",
+                    LocalDate.of(1900,1, 1), "email1"));
+            insuredServices.createInsured(new Insured("AFM_2", "AMKA_2", "Antonia", "P",
+                    LocalDate.of(1920,1, 1), "email2"));
+            insuredServices.createInsured(new Insured("AFM_3", "AMKA_3", "Eleni", "T",
+                    LocalDate.of(1940,1, 1), "email3"));
+            insuredServices.createInsured(new Insured("AFM_4", "AMKA_4", "Lina", "K",
+                    LocalDate.of(1960,1, 1), "email4"));
+
+
+
+            //Add two timeslots   //Timeslot - constructor: date, startMinute
+
+            Timeslot t1 = new Timeslot(LocalDate.of(2010, 1, 1), "10:00");
+            timeslotServices.createTimeslot(t1);
+            Timeslot t2 = new Timeslot(LocalDate.of(2024, 4, 2), "11:00");
+            timeslotServices.createTimeslot(t2);
 
             //Add two doctors
             doctorServices.createDoctor( //Doctor - constructor: AMKA, name, surname, timeslot
-                    new Doctor("amka5", "Dr1", "A",  new ArrayList<>()));
+                    new Doctor("d_AMKA_1", "d_NAME_1", "d_SNAME_1", new ArrayList<>(List.of(t1)) ));
             doctorServices.createDoctor(
-                    new Doctor("amka6", "Dr2", "B", new ArrayList<>()));
-
-            //Add two timeslots   //Timeslot - constructor: date, startMinute
-            timeslotServices.createTimeslot(new Timeslot(LocalDate.of(2010, 1, 1), "10:00"));
-            timeslotServices.createTimeslot(new Timeslot(LocalDate.of(2024, 4, 20), "10:00"));
+                    new Doctor("d_AMKA_2", "d_NAME_2", "d_SNAME_2", new ArrayList<>(List.of(t2)) ));
 
 
-            //Make a reservation for insured 1 (Giannis, amka: amka1)
-            //Giannis is insured at index 0
-            //Update method to add insured by amka?
-//            reservationServices.createReservation(new Reservation(insuredServices.getInsuredByAmka("amka1"),
-//                    timeslotServices.getAllTimeslots().get(0), doctorServices.getDoctorByAmka("amkaD") ) );
+            reservationServices.createReservation("AMKA_1", LocalDate.of(2024, 4, 2),
+                    "11:00", "d_AMKA_1");
 
-            //Make a vaccination for insured 1 (Giannis, amka: amka1) with dr1
-            //Giannis is insured at index 0
-            vaccinationServices.createVaccination(new Vaccination(insuredServices.getAllInsured().get(0), doctorServices.getAllDoctors().get(0),
-                    timeslotServices.getAllTimeslots().get(0).getDate(), timeslotServices.getAllTimeslots().get(0).getDate().plusYears(2)));
+
+            vaccinationServices.createVaccinationByDoctor(LocalDate.of(2024,4,2), "11:00",
+                    "AMKA_1", LocalDate.of(2030, 5, 30));
 
         };
 

@@ -10,6 +10,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TimeslotServices {
@@ -36,29 +37,38 @@ public class TimeslotServices {
             /* if timeslot found with the given date, then should return this timeslot*/
             if (timeslot.getDate().equals(date)) { //use ".equals" instead of "=="
                 foundTimeslots.add(timeslot);
+                timeslot.setHasReservation(true);  //to set the specific timeslot as booked
                 return foundTimeslots;
             }
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot with date: [" + date + "] not found");
     }
 
+    public Timeslot getTimeslotByDateHour(LocalDate date, String startMinute) {
+        for (Timeslot timeslot : timeslotList) {
+            if (timeslot.getDate().equals(date) && timeslot.getStartMinute().equals(startMinute)) {
+                return timeslot;
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "Timeslot with date: [" + date + "]" +  "[" + startMinute + "] not found");
+    }
+
+
     //by DOCTOR
-    public Timeslot getTimeslotByDoctor(String dAmka, String dName) {
+    public Timeslot getTimeslotByDoctor(String dAmka) {
 
         Doctor doctor = doctorServices.getDoctorByAmka(dAmka);
-         return timeslotList.stream()
-                .filter(d -> doctor.getAmka().equals(dAmka) || doctor.getName().equals(dName))
+        if(dAmka == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Doctor's AFM cannot be null.");
+        }
+
+        return timeslotList.stream()
+                .filter(x -> doctor.getAmka().equals(dAmka))
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                            "There is no timeslot by Doctor with name: " + dName));
-
-
-
-        //        for (Timeslot timeslot : timeslotList) {
-        //            if (timeslot.getDoctor().equals(dAmka))
-        //                return timeslot;
-        //        }
-        //        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no timeslot by Doctor with name: " + dName);
+                        "There is no timeslot by Doctor with AMKA: [" + "] " + dAmka));
     }
 
 

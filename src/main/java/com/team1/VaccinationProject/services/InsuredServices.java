@@ -26,16 +26,16 @@ public class InsuredServices {
                 .filter(insured -> insured.getAmka().equals(amka))
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                                         "Insured with AMKA: " + amka + " does not exist"));
+                                                         "Insured with AMKA: [" + amka + "] does not exist"));
 
-        //alternative way:
-        /*  for (Insured insured : insuredList) {
-            if (insured.getAmka().equals(amka)) {
-                return insured;
-            }
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
-        */
+                //alternative way:
+                /*  for (Insured insured : insuredList) {
+                    if (insured.getAmka().equals(amka)) {
+                        return insured;
+                    }
+                }
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
+                */
     }
 
     public Insured getInsuredByAfm(String afm) {
@@ -44,25 +44,11 @@ public class InsuredServices {
                 .filter(insured -> insured.getAfm().equals(afm))
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                                                "Insured with AFM: " + afm + " does not exist"));
+                                                                "Insured with AFM: [" + afm + "] does not exist"));
     }
 
     public List<Insured> getAllInsured() {
         return insuredList;
     }
 
-//    public Insured updateInsured(String amka, String name, String surname, LocalDate birthday, String email) {
-//        Insured insured =  getInsuredByAmka(amka);
-//        if (name != null) insured.setName(name);
-//        if (surname != null) insured.setSurname(surname);
-//        if (birthday != null) insured.setBirthday(birthday);
-//        if (email != null) insured.setEmail(email);
-//        return insured;
-//    }
-
-//    public List<Insured> deleteInsured(String amka) {
-//        Insured insured = getInsuredByAmka(amka);
-//        insuredList.remove(insured);
-//        return insuredList;
-//    }
 }

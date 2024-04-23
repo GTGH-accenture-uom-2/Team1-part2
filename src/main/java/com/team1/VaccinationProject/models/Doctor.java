@@ -2,15 +2,16 @@
 package com.team1.VaccinationProject.models;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Doctor{
     private String amka;
     private String name;
     private String surname;
-    private ArrayList<Timeslot> timeslots;
-    private ArrayList<Vaccination> vaccinations=new ArrayList<>();
+    private List<Timeslot> timeslots;
+    private List<Vaccination> vaccinations;
 
-    public Doctor(String amka, String name, String surname, ArrayList<Timeslot> timeslots) {
+    public Doctor(String amka, String name, String surname, List<Timeslot> timeslots) {
         this.amka = amka;
         this.name = name;
         this.surname = surname;
@@ -25,8 +26,6 @@ public class Doctor{
     }
 
     public Doctor() {}
-
-
 
 
     //Method to add/assign new timeslots to a doctor
@@ -54,19 +53,19 @@ public class Doctor{
 
     public void setSurname(String surname) {this.surname = surname;}
 
-    public ArrayList<Timeslot> getTimeslots() {
+    public List<Timeslot> getTimeslots() {
         return timeslots;
     }
 
-    public ArrayList<Vaccination> getVaccinations() {
+    public void setTimeslots(List<Timeslot> timeslots) {
+        this.timeslots = timeslots;
+    }
+
+    public List<Vaccination> getVaccinations() {
         return vaccinations;
     }
 
-    public void setVaccinations(ArrayList<Vaccination> vaccinations) {
+    public void setVaccinations(List<Vaccination> vaccinations) {
         this.vaccinations = vaccinations;
-    }
-
-    public void setTimeslots(ArrayList<Timeslot> timeslots) {
-        this.timeslots = timeslots;
     }
 }

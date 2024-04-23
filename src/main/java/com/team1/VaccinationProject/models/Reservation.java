@@ -5,10 +5,10 @@ public class Reservation {
     private Insured insured;
     private Timeslot timeslot;
 //maybe, we need to add:
-    private Doctor doctor;
+   private Doctor doctor;
 
 
-    public Reservation(Insured insured, Timeslot timeslot, Doctor doctor){
+    public Reservation(Insured insured, Timeslot timeslot ,Doctor doctor){
         this.insured = insured;
         this.timeslot = timeslot;
         this.doctor = doctor;
