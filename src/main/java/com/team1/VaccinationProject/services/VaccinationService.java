@@ -3,6 +3,7 @@ package com.team1.VaccinationProject.services;
 import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Insured;
 import com.team1.VaccinationProject.models.Vaccination;
+import com.team1.VaccinationProject.models.VaccinationStatusDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class VaccinationServices {
+public class VaccinationService {
 
     List<Vaccination> vaccinationList = new ArrayList<>();
 
@@ -55,5 +56,16 @@ public class VaccinationServices {
         Vaccination vaccination = getVaccinationByAmka(amka);
         vaccinationList.remove(vaccination);
         return vaccinationList;
+    }
+
+    public VaccinationStatusDTO checkVaccinationStatusByAmka(String amka) {
+        Vaccination vaccination = getVaccinationByAmka(amka);
+        if(vaccination.getExpirationDate().isAfter(LocalDate.now())){
+            return new VaccinationStatusDTO(false, vaccination.getExpirationDate());
+        }
+        else if (vaccination.getExpirationDate().isBefore(LocalDate.now())) {
+            return new VaccinationStatusDTO(true, vaccination.getExpirationDate());
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 }

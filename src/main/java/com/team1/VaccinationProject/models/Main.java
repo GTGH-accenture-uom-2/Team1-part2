@@ -1,3 +1,4 @@
+/*
 package com.team1.VaccinationProject.models;
 import java.io.*;
 import java.time.LocalDate;
@@ -8,9 +9,15 @@ import java.util.stream.Collectors;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        /*  Create objects on Main  */
-        /*  (a.) 15 insured citizens: age {10-90} => in a List  */
-        /* Create an ArrayList that contains Objects type 'Insured' */
+        */
+/*  Create objects on Main  *//*
+
+        */
+/*  (a.) 15 insured citizens: age {10-90} => in a List  *//*
+
+        */
+/* Create an ArrayList that contains Objects type 'Insured' *//*
+
         ArrayList<Insured> insured = new ArrayList<>();
         //keep citizens' name in a 'String' table
         String[] insured_name = {"Γιάννης", "Ελένη", "Αντωνία", "Λίνα", "Θανάσης", "Μαρία", "Αρσένης", "Παυλίνα",
@@ -29,8 +36,12 @@ public class Main {
 //                    "Birthday: " + insured_people.getBirthday());
 //        }
 
-        /*  (b.) 2 vaccination center with 10 timeslots for each center */
-        /* Create an ArrayList to store Timeslot objects */
+        */
+/*  (b.) 2 vaccination center with 10 timeslots for each center *//*
+
+        */
+/* Create an ArrayList to store Timeslot objects *//*
+
         ArrayList<Timeslot> timeslot1 = new ArrayList<>();
         ArrayList<Timeslot> timeslot2 = new ArrayList<>();
 
@@ -92,7 +103,9 @@ public class Main {
             currentDoctor.addVaccination(currentVaccination);
         }
 
-        /*  : Write to file  */
+        */
+/*  : Write to file  *//*
+
         //define the name of file in which prints will be written
         String fileName = "vaccination-results.txt";
         try {
@@ -189,3 +202,4 @@ public class Main {
 
 
 
+*/
