@@ -34,30 +34,30 @@ public class ReservationController {
 
     //1. firstly, let's create Reservations (empty items)
     @PostMapping
-//    public Reservation createReservation(@RequestBody Reservation reservation) {
-//
-//         return reservationServices.createReservation(reservation);
-//    }
+    public Reservation createReservation(@RequestParam(required = true) String amka,
+                                         @RequestParam(required = true) LocalDate date,
+                                         @RequestParam(required = true) String startMinute,
+                                         @RequestParam(required = true) String dAmka) {
 
+        return reservationServices.createReservation(amka, date, startMinute, dAmka);
+    }
+
+    //by Insured' AMKA
     @GetMapping("/amka")
     public Reservation getReservationByAmka(@RequestParam String amka) {
         return reservationServices.getReservationByAmka(amka);
     }
 
-    @GetMapping("/all")
-    public List<Reservation> getAllReservations(){
-        return reservationServices.getAllReservations();
+    //by Timeslot' Date
+    @GetMapping("/date")
+    public Reservation getReservationByDate(@RequestParam LocalDate date){
+        return reservationServices.getReservationByDate(date);
     }
 
-}
-//----------------------------------------------------------------------------------------------------------------------
-
-//
-//    @GetMapping("/date")
-//    public Reservation getReservationByDate(@RequestParam LocalDate date){
-//        return reservationServices.getReservationByDate(date);
-//    }
-
+    @GetMapping("/all")
+    public List<Reservation> getAllReservations() {
+        return reservationServices.getAllReservations();
+    }
 
 //    @PutMapping
 //    public Reservation updateReservation(@RequestParam LocalDate date,
@@ -70,3 +70,5 @@ public class ReservationController {
 //    public List<Reservation> deleteReservation(@RequestParam String amka){
 //        return reservationServices.deleteReservation(amka);
 //    }
+
+}

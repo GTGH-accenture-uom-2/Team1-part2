@@ -1,14 +1,21 @@
 package com.team1.VaccinationProject.services;
+import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Timeslot;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TimeslotServices {
+
+    @Autowired
+    DoctorServices doctorServices;
 
     List<Timeslot> timeslotList = new ArrayList<>();
 
@@ -32,24 +39,34 @@ public class TimeslotServices {
                 return foundTimeslots;
             }
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot with date " + date + " not found");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot with date: [" + date + "] not found");
     }
-}
-//----------------------------------------------------------------------------------------------------------------------
 
-//
-//    public Timeslot getTimeslotByDoctor(Doctor doctor) {
-//        for (Timeslot timeslot: timeslotList){
-//            if (timeslot.getDoctor().equals(doctor))
-//                return timeslot;
-//        }
-//        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation does not exist");
-//    }
-//
-//    public List<Timeslot> getAllTimeslots() {
-//        return timeslotList;
-//    }
-//
+    //by DOCTOR
+    public Timeslot getTimeslotByDoctor(String dAmka, String dName) {
+
+        Doctor doctor = doctorServices.getDoctorByAmka(dAmka);
+         return timeslotList.stream()
+                .filter(d -> doctor.getAmka().equals(dAmka) || doctor.getName().equals(dName))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                            "There is no timeslot by Doctor with name: " + dName));
+
+
+
+        //        for (Timeslot timeslot : timeslotList) {
+        //            if (timeslot.getDoctor().equals(dAmka))
+        //                return timeslot;
+        //        }
+        //        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no timeslot by Doctor with name: " + dName);
+    }
+
+
+    public List<Timeslot> getAllTimeslots() {
+        return timeslotList;
+    }
+
+
 //    public Timeslot updateTimeslot(LocalDate date, int hour, int minutes, int startMinute, int endMinute, Doctor doctor) {
 //        Timeslot timeslot = getTimeslotByDate(date);
 //        if (hour != 0) timeslot.setHour(hour);
@@ -60,9 +77,10 @@ public class TimeslotServices {
 //        return timeslot;
 //    }
 //
-//
 //    public List<Timeslot> deleteTimeslot(LocalDate date) {
 //        Timeslot timeslot = getTimeslotByDate(date);
 //        timeslotList.remove(timeslot);
 //        return timeslotList;
 //    }
+
+}

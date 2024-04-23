@@ -8,13 +8,14 @@ public class Reservation {
     private Doctor doctor;
 
 
-    public Reservation() {}
-
     public Reservation(Insured insured, Timeslot timeslot, Doctor doctor){
         this.insured = insured;
         this.timeslot = timeslot;
         this.doctor = doctor;
     }
+
+    public Reservation() {}
+
 
     //Getters and Setters
     public Insured getInsured() {

@@ -11,18 +11,25 @@ public class Timeslot {
     private Doctor doctor;
     private Boolean hasReservation = false;
 
-    public Timeslot(){}
 
-    public Timeslot(LocalDate date, /*int hour,*/
-                   /* int minutes,*/ String startMinute, String endMinute, Doctor doctor, Boolean hasReservation){
+    public Timeslot(LocalDate date, int hour,
+                    int minutes, String startMinute, String endMinute, Doctor doctor, Boolean hasReservation){
         this.date = date;
-//        this.hour = hour;
-//        this.minutes = minutes;
+        this.hour = hour;
+        this.minutes = minutes;
         this.startMinute = startMinute;
         this.endMinute = endMinute;
         this.doctor = doctor;
         this.hasReservation = hasReservation;
     }
+
+    //add this constructor:
+    public Timeslot(LocalDate date, String startMinute) {
+        this.date = date;
+        this.startMinute = startMinute;
+    }
+
+    public Timeslot(){}
 
 
     //Method to assign a doctor to this timeslot
@@ -41,6 +48,13 @@ public class Timeslot {
 
     public void setDate(LocalDate date) {this.date = date;}
 
+    public int getHour() {return hour;}
+
+    public void setHour(int hour) {this.hour = hour;}
+
+    public int getMinutes() {return minutes;}
+
+    public void setMinutes(int minutes) {this.minutes = minutes;}
 
     public String getStartMinute() {return startMinute;}
 
