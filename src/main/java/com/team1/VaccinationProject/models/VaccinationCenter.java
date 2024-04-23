@@ -1,5 +1,4 @@
 /* Class: Vaccination Center */
-
 package com.team1.VaccinationProject.models;
 import java.util.ArrayList;
 

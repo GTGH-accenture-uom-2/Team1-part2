@@ -1,8 +1,8 @@
 package com.team1.VaccinationProject.controllers;
-
-
 import com.team1.VaccinationProject.models.Doctor;
-import com.team1.VaccinationProject.services.DoctorServices;
+import com.team1.VaccinationProject.models.Reservation;
+import com.team1.VaccinationProject.services.DoctorService;
+import com.team1.VaccinationProject.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,43 +14,52 @@ import java.util.List;
 public class DoctorController {
 
     @Autowired
-    DoctorServices doctorServices;
-
+    DoctorService doctorService;
+    @Autowired
+    ReservationService reservationService;
 
     //------------- C.R.U.D. Doctor Controller -------------
 
     @PostMapping
     public List<Doctor> createDoctor(@RequestBody Doctor doctor) {
-        return doctorServices.createDoctor(doctor);
+        return doctorService.createDoctor(doctor);
     }
 
     @GetMapping("/amka")
     public Doctor getDoctorByAmka(@RequestParam String amka) {
-        return doctorServices.getDoctorByAmka(amka);
+        return doctorService.getDoctorByAmka(amka);
     }
 
-    @GetMapping("/afm")
-    public Doctor getDoctorByAfm(@RequestParam String afm) {
-        return doctorServices.getDoctorByAfm(afm);
-    }
 
     @GetMapping("/all")
     public List<Doctor> getAllDoctors() {
-        return doctorServices.getAllDoctors();
+        return doctorService.getAllDoctors();
     }
 
-    @PutMapping
-    public Doctor updateDoctor(@RequestParam String amka,
-                               @RequestParam(required = false) String name,
-                               @RequestParam(required = false) String surname,
-                               @RequestParam(required = false) LocalDate birthday,
-                               @RequestParam(required = false) String email){
 
-        return doctorServices.updateDoctor(amka, name, surname, birthday, email);
+    @GetMapping("/allreservations")
+    public List<Reservation> getDoctorReservations(@RequestParam (required = true) String amka){
+        return reservationService.getAllDoctorsReservations(amka);
     }
 
-    @DeleteMapping
-    public List<Doctor> deleteDoctor(@RequestParam String amka){
-        return doctorServices.deleteDoctor(amka);
+    @GetMapping("/dayreservations")
+    public List<Reservation> getAllDoctorsReservationsByDay(@RequestParam String amka, @RequestParam LocalDate date){
+        return reservationService.getAllDoctorsReservationsByDay(amka, date);
     }
+
+
+//    @PutMapping
+//    public Doctor updateDoctor(@RequestParam String amka,
+//                               @RequestParam(required = false) String name,
+//                               @RequestParam(required = false) String surname,
+//                               @RequestParam(required = false) LocalDate birthday,
+//                               @RequestParam(required = false) String email){
+//
+//        return doctorServices.updateDoctor(amka, name, surname, birthday, email);
+//    }
+
+//    @DeleteMapping
+//    public List<Doctor> deleteDoctor(@RequestParam String amka){
+//        return doctorServices.deleteDoctor(amka);
+//    }
 }
