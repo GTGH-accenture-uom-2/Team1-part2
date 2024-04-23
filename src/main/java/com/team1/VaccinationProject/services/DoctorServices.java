@@ -1,6 +1,7 @@
 package com.team1.VaccinationProject.services;
 
 import com.team1.VaccinationProject.models.Doctor;
+import com.team1.VaccinationProject.models.Reservation;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,6 +14,7 @@ import java.util.List;
 public class DoctorServices {
 
     List<Doctor> doctorList = new ArrayList<>();
+    List <Reservation> doctorReservationsList = new ArrayList<>();
 
 
     //------------- C.R.U.D. Doctor Services -------------
@@ -60,4 +62,12 @@ public class DoctorServices {
         doctorList.remove(doctor);
         return doctorList;
     }
+
+//    public List<Reservation> getAllDoctorReservations(){
+//        List<Reservation> doctorReservations= new ArrayList<>(); //h apo to reservationService
+//        return doctorReservations;
+//    }
 }
+
+
+

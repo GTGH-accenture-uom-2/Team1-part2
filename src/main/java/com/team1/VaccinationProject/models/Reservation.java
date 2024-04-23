@@ -1,17 +1,21 @@
 /* Class: Reservation */
-
 package com.team1.VaccinationProject.models;
 
 public class Reservation {
     private Insured insured;
     private Timeslot timeslot;
+    //maybe, we need to add:
+    private Doctor doctor;
 
 
-    //Reservation Constructor
-    public Reservation(Insured insured, Timeslot timeslot){
+    public Reservation(Insured insured, Timeslot timeslot, Doctor doctor){
         this.insured = insured;
         this.timeslot = timeslot;
+        this.doctor = doctor;
     }
+
+    public Reservation() {}
+
 
     //Getters and Setters
     public Insured getInsured() {
@@ -22,18 +26,12 @@ public class Reservation {
         this.insured = insured;
     }
 
-    public Timeslot getTimeslot() {
-        return timeslot;
-    }
+    public Timeslot getTimeslot() {return timeslot;}
 
-    public void setTimeslot(Timeslot timeslot) {
-        this.timeslot = timeslot;
-    }
+    public void setTimeslot(Timeslot timeslot) {this.timeslot = timeslot;}
 
+    public Doctor getDoctor() {return doctor;}
 
-    //Override toString
-    public String toString(){
-        return "Insured: " + getInsured().getName() + " Timeslot: " + getTimeslot().toString();
-    }
+    public void setDoctor(Doctor doctor) {this.doctor = doctor;}
+
 }
-

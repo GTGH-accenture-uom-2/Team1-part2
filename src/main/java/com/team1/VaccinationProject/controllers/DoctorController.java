@@ -2,10 +2,13 @@ package com.team1.VaccinationProject.controllers;
 
 
 import com.team1.VaccinationProject.models.Doctor;
+import com.team1.VaccinationProject.models.Reservation;
 import com.team1.VaccinationProject.services.DoctorServices;
+import com.team1.VaccinationProject.services.ReservationServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,6 +19,8 @@ public class DoctorController {
     @Autowired
     DoctorServices doctorServices;
 
+    @Autowired
+    ReservationServices reservationServices;
 
     //------------- C.R.U.D. Doctor Controller -------------
 
@@ -53,4 +58,21 @@ public class DoctorController {
     public List<Doctor> deleteDoctor(@RequestParam String amka){
         return doctorServices.deleteDoctor(amka);
     }
+
+//    @GetMapping("/reservations")
+//    public Doctor getDoctorReservations(@RequestParam Long id, @RequestParam Reservation reservationList){
+//        return doctorServices.getDoctorReservations(id, reservationList);
+//    }
+
+    @GetMapping("/allreservations")
+    public List<Reservation> getDoctorReservations(@RequestParam (required = true) String amka){
+        return reservationServices.getAllDoctorsReservations(amka);
+    }
+
+    @GetMapping("/dayreservations")
+    public List<Reservation> getAllDoctorsReservationsByDay(@RequestParam String amka, @RequestParam LocalDate date){
+        return reservationServices.getAllDoctorsReservationsByDay(amka, date);
+    }
+
+
 }
