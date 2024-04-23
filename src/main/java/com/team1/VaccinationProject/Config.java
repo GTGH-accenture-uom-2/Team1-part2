@@ -19,19 +19,19 @@ public class Config {
     * Reservations => */
 
     @Bean
-    public CommandLineRunner commandLineRunner(DoctorServices doctorServices, InsuredServices insuredServices,
-                                               ReservationServices reservationServices,
-                                               TimeslotServices timeslotServices,
-                                               VaccinationServices vaccinationServices) {
+    public CommandLineRunner commandLineRunner(DoctorService doctorService, InsuredService insuredService,
+                                               ReservationService reservationService,
+                                               TimeslotService timeslotService,
+                                               VaccinationService vaccinationService) {
         return args -> {
             //Add four insured
-            insuredServices.createInsured(new Insured("AFM_1", "AMKA_1", "Giannis", "A",
+            insuredService.createInsured(new Insured("AFM_1", "AMKA_1", "Giannis", "A",
                     LocalDate.of(1900,1, 1), "email1"));
-            insuredServices.createInsured(new Insured("AFM_2", "AMKA_2", "Antonia", "P",
+            insuredService.createInsured(new Insured("AFM_2", "AMKA_2", "Antonia", "P",
                     LocalDate.of(1920,1, 1), "email2"));
-            insuredServices.createInsured(new Insured("AFM_3", "AMKA_3", "Eleni", "T",
+            insuredService.createInsured(new Insured("AFM_3", "AMKA_3", "Eleni", "T",
                     LocalDate.of(1940,1, 1), "email3"));
-            insuredServices.createInsured(new Insured("AFM_4", "AMKA_4", "Lina", "K",
+            insuredService.createInsured(new Insured("AFM_4", "AMKA_4", "Lina", "K",
                     LocalDate.of(1960,1, 1), "email4"));
 
 
@@ -39,22 +39,22 @@ public class Config {
             //Add two timeslots   //Timeslot - constructor: date, startMinute
 
             Timeslot t1 = new Timeslot(LocalDate.of(2010, 1, 1), "10:00");
-            timeslotServices.createTimeslot(t1);
+            timeslotService.createTimeslot(t1);
             Timeslot t2 = new Timeslot(LocalDate.of(2024, 4, 2), "11:00");
-            timeslotServices.createTimeslot(t2);
+            timeslotService.createTimeslot(t2);
 
             //Add two doctors
-            doctorServices.createDoctor( //Doctor - constructor: AMKA, name, surname, timeslot
+            doctorService.createDoctor( //Doctor - constructor: AMKA, name, surname, timeslot
                     new Doctor("d_AMKA_1", "d_NAME_1", "d_SNAME_1", new ArrayList<>(List.of(t1)) ));
-            doctorServices.createDoctor(
+            doctorService.createDoctor(
                     new Doctor("d_AMKA_2", "d_NAME_2", "d_SNAME_2", new ArrayList<>(List.of(t2)) ));
 
 
-            reservationServices.createReservation("AMKA_1", LocalDate.of(2024, 4, 2),
+            reservationService.createReservation("AMKA_1", LocalDate.of(2024, 4, 2),
                     "11:00", "d_AMKA_1");
 
 
-            vaccinationServices.createVaccinationByDoctor(LocalDate.of(2024,4,2), "11:00",
+            vaccinationService.createVaccinationByDoctor(LocalDate.of(2024,4,2), "11:00",
                     "AMKA_1", LocalDate.of(2030, 5, 30));
 
         };

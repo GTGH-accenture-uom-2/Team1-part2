@@ -1,11 +1,9 @@
 package com.team1.VaccinationProject.controllers;
-import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Timeslot;
-import com.team1.VaccinationProject.services.TimeslotServices;
+import com.team1.VaccinationProject.services.TimeslotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,20 +12,20 @@ import java.util.List;
 public class TimeslotController {
 
     @Autowired
-    TimeslotServices timeslotServices;
+    TimeslotService timeslotService;
 
     //------------- C.R.U.D. Timeslot Controller -------------
 
     //1. firstly, let's create a list of Timeslots (empty items)
     @PostMapping
     public List<Timeslot> createTimeslot(@RequestBody Timeslot timeslot) {
-        return timeslotServices.createTimeslot(timeslot);
+        return timeslotService.createTimeslot(timeslot);
     }
 
     //2. let's get EMPTY timeslots' list based on 'Date'
     @GetMapping("/listbydate")
     public List<Timeslot> findTimeslotByDate(@RequestParam LocalDate date) {
-        return timeslotServices.findTimeslotByDate(date);
+        return timeslotService.findTimeslotByDate(date);
     }
 
     //++++++++++++
@@ -35,17 +33,17 @@ public class TimeslotController {
     @GetMapping("/onebydate")
     public Timeslot getTimeslotByDateHour(@RequestParam LocalDate date,
                                       @RequestParam String startMinute) {
-        return timeslotServices.getTimeslotByDateHour(date, startMinute);
+        return timeslotService.getTimeslotByDateHour(date, startMinute);
     }
 
     @GetMapping("/doctor")
     public Timeslot getTimeslotByDoctor(@RequestParam String dAmka) {
-        return timeslotServices.getTimeslotByDoctor(dAmka);
+        return timeslotService.getTimeslotByDoctor(dAmka);
     }
 
     @GetMapping("/all")
     public List<Timeslot> getAllTimeslots() {
-        return timeslotServices.getAllTimeslots();
+        return timeslotService.getAllTimeslots();
     }
 
 

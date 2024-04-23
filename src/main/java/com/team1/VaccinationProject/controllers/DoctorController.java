@@ -1,13 +1,11 @@
 package com.team1.VaccinationProject.controllers;
 import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Reservation;
-import com.team1.VaccinationProject.models.Timeslot;
-import com.team1.VaccinationProject.services.DoctorServices;
-import com.team1.VaccinationProject.services.ReservationServices;
+import com.team1.VaccinationProject.services.DoctorService;
+import com.team1.VaccinationProject.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,37 +14,37 @@ import java.util.List;
 public class DoctorController {
 
     @Autowired
-    DoctorServices doctorServices;
+    DoctorService doctorService;
     @Autowired
-    ReservationServices reservationServices;
+    ReservationService reservationService;
 
     //------------- C.R.U.D. Doctor Controller -------------
 
     @PostMapping
     public List<Doctor> createDoctor(@RequestBody Doctor doctor) {
-        return doctorServices.createDoctor(doctor);
+        return doctorService.createDoctor(doctor);
     }
 
     @GetMapping("/amka")
     public Doctor getDoctorByAmka(@RequestParam String amka) {
-        return doctorServices.getDoctorByAmka(amka);
+        return doctorService.getDoctorByAmka(amka);
     }
 
 
     @GetMapping("/all")
     public List<Doctor> getAllDoctors() {
-        return doctorServices.getAllDoctors();
+        return doctorService.getAllDoctors();
     }
 
 
     @GetMapping("/allreservations")
     public List<Reservation> getDoctorReservations(@RequestParam (required = true) String amka){
-        return reservationServices.getAllDoctorsReservations(amka);
+        return reservationService.getAllDoctorsReservations(amka);
     }
 
     @GetMapping("/dayreservations")
     public List<Reservation> getAllDoctorsReservationsByDay(@RequestParam String amka, @RequestParam LocalDate date){
-        return reservationServices.getAllDoctorsReservationsByDay(amka, date);
+        return reservationService.getAllDoctorsReservationsByDay(amka, date);
     }
 
 

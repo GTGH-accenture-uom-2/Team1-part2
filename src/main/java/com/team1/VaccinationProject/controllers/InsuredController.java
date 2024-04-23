@@ -1,11 +1,9 @@
 package com.team1.VaccinationProject.controllers;
 import com.team1.VaccinationProject.models.Insured;
-import com.team1.VaccinationProject.services.InsuredServices;
+import com.team1.VaccinationProject.services.InsuredService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
@@ -13,29 +11,29 @@ import java.util.List;
 public class InsuredController {
 
     @Autowired
-    InsuredServices insuredServices;
+    InsuredService insuredService;
 
     //------------- C.R.U.D. Insured Controller -------------
 
     // create a list of Insured people
     @PostMapping
     public List<Insured> createInsured(@RequestBody Insured insured) {
-        return insuredServices.createInsured(insured);
+        return insuredService.createInsured(insured);
     }
 
     @GetMapping("/amka")
     public Insured getInsuredByAmka(@RequestParam String amka) {
-        return insuredServices.getInsuredByAmka(amka);
+        return insuredService.getInsuredByAmka(amka);
     }
 
     @GetMapping("/afm")
     public Insured getInsuredByAfm(@RequestParam String afm) {
-        return insuredServices.getInsuredByAfm(afm);
+        return insuredService.getInsuredByAfm(afm);
     }
 
     @GetMapping("/all")
     public List<Insured> getAllInsured() {
-        return insuredServices.getAllInsured();
+        return insuredService.getAllInsured();
     }
 
 

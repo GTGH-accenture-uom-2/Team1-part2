@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class VaccinationServices {
+public class VaccinationService {
     @Autowired
-    InsuredServices insuredServices;
+    InsuredService insuredService;
     @Autowired
-    TimeslotServices timeslotServices;
+    TimeslotService timeslotService;
     List<Vaccination> vaccinationList = new ArrayList<>();
 
 //    public List<Vaccination> createVaccination(Vaccination vaccination) {
@@ -28,13 +28,13 @@ public class VaccinationServices {
 
     public Vaccination createVaccinationByDoctor(LocalDate date, String startMinute, String amka, LocalDate expirationDate) {
 
-        Insured insured_person = insuredServices.getInsuredByAmka(amka);
+        Insured insured_person = insuredService.getInsuredByAmka(amka);
 
         if (insured_person == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
         }
 
-        Timeslot timeslot = timeslotServices.getTimeslotByDateHour(date, startMinute);
+        Timeslot timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
         if (timeslot == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot does not exist");
         }

@@ -1,18 +1,13 @@
 package com.team1.VaccinationProject.controllers;
 import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Insured;
-import com.team1.VaccinationProject.models.Timeslot;
 import com.team1.VaccinationProject.models.Vaccination;
-import com.team1.VaccinationProject.services.InsuredServices;
-import com.team1.VaccinationProject.services.TimeslotServices;
-import com.team1.VaccinationProject.services.VaccinationServices;
-import io.swagger.v3.oas.models.info.License;
+import com.team1.VaccinationProject.services.InsuredService;
+import com.team1.VaccinationProject.services.TimeslotService;
+import com.team1.VaccinationProject.services.VaccinationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.print.Doc;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,12 +17,12 @@ import java.util.List;
 public class VaccinationController {
 
     @Autowired
-    VaccinationServices vaccinationServices;
+    VaccinationService vaccinationService;
     @Autowired
-    InsuredServices insuredServices;
+    InsuredService insuredService;
 
     @Autowired
-    TimeslotServices timeslotServices;
+    TimeslotService timeslotService;
 
 
     //------------- C.R.U.D. Vaccination Controller -------------
@@ -42,22 +37,22 @@ public class VaccinationController {
                                          @RequestParam(required = true) String amka,
                                          @RequestParam(required = true) LocalDate expirationDate){
 
-        return vaccinationServices.createVaccinationByDoctor(date, startMinute, amka, expirationDate);
+        return vaccinationService.createVaccinationByDoctor(date, startMinute, amka, expirationDate);
     }
 
     @GetMapping("/date")
     public Vaccination getVaccinationByDate(@RequestParam LocalDate date) {
-        return vaccinationServices.getVaccinationByDate(date);
+        return vaccinationService.getVaccinationByDate(date);
     }
 
     @GetMapping("/amka")
     public Vaccination getVaccinationByAmka(@RequestParam String amka) {
-        return vaccinationServices.getVaccinationByAmka(amka);
+        return vaccinationService.getVaccinationByAmka(amka);
     }
 
     @GetMapping("/all")
     public List<Vaccination> getAllVaccinations() {
-        return vaccinationServices.getAllVaccinations();
+        return vaccinationService.getAllVaccinations();
     }
 
     @PutMapping
@@ -65,12 +60,12 @@ public class VaccinationController {
                                          @RequestParam(required = false) Insured insured,
                                          @RequestParam(required = false) Doctor doctor,
                                          @RequestParam(required = false) LocalDate expirationDate){
-        return vaccinationServices.updateVaccination(date, insured, doctor, expirationDate);
+        return vaccinationService.updateVaccination(date, insured, doctor, expirationDate);
     }
 
     @DeleteMapping
     public List<Vaccination> deleteVaccinationByInsuredAmka(@RequestParam String amka){
-        return vaccinationServices.deleteVaccinationByInsuredAmka(amka);
+        return vaccinationService.deleteVaccinationByInsuredAmka(amka);
     }
 
 
