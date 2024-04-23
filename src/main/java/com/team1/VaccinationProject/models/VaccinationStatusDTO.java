@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class VaccinationStatusDTO {
-    private Boolean isVaccinated;
+    private Boolean isVaccinated = false;
     private LocalDate expirationDate;
 
 

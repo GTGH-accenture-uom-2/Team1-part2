@@ -61,10 +61,10 @@ public class VaccinationService {
     public VaccinationStatusDTO checkVaccinationStatusByAmka(String amka) {
         Vaccination vaccination = getVaccinationByAmka(amka);
         if(vaccination.getExpirationDate().isAfter(LocalDate.now())){
-            return new VaccinationStatusDTO(false, vaccination.getExpirationDate());
+            return new VaccinationStatusDTO(true, vaccination.getExpirationDate());
         }
         else if (vaccination.getExpirationDate().isBefore(LocalDate.now())) {
-            return new VaccinationStatusDTO(true, vaccination.getExpirationDate());
+            return new VaccinationStatusDTO(false, vaccination.getExpirationDate());
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }

@@ -34,10 +34,10 @@ public class Config {
             timeslotService.createTimeslot(new Timeslot(LocalDate.of(2024, 1, 1), 10,0, 10, 0));
             timeslotService.createTimeslot(new Timeslot(LocalDate.of(2010, 1, 2), 10,0, 10, 0));
 
-            List<Timeslot> alltimeslots = new ArrayList<>(timeslotService.getAllTimeslots());
-            for (Timeslot timeslot: alltimeslots){
-                
-            }
+            //List<Timeslot> alltimeslots = new ArrayList<>(timeslotService.getAllTimeslots());
+            //for (Timeslot timeslot: alltimeslots){
+            //
+            //}
 
 
             //Make a reservation for insured 1 (Giannis, amka: amka1)
