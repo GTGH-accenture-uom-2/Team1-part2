@@ -55,6 +55,16 @@ public class DoctorController {
         return reservationService.getAllDoctorsReservationsByDay(amka, date);
     }
 
+    @GetMapping("/pagination")
+    public List<Reservation> getAllDoctorsReservationsByDay(
+            @RequestParam String amka,
+            @RequestParam LocalDate date,
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize) {
+
+        return reservationService.getAllDoctorsReservationsPagination(amka, date, pageNumber, pageSize);
+    }
+
 
 
 //    @PutMapping

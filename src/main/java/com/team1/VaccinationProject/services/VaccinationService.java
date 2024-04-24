@@ -1,10 +1,6 @@
 package com.team1.VaccinationProject.services;
 
-import com.team1.VaccinationProject.models.Doctor;
-import com.team1.VaccinationProject.models.Insured;
-import com.team1.VaccinationProject.models.VaccinationStatusDTO;
-import com.team1.VaccinationProject.models.Timeslot;
-import com.team1.VaccinationProject.models.Vaccination;
+import com.team1.VaccinationProject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,6 +17,9 @@ public class VaccinationService {
     InsuredService insuredService;
     @Autowired
     TimeslotService timeslotService;
+
+    @Autowired
+    ReservationService reservationService;
     List<Vaccination> vaccinationList = new ArrayList<>();
 
 //    public List<Vaccination> createVaccination(Vaccination vaccination) {
@@ -28,25 +27,25 @@ public class VaccinationService {
 //        return vaccinationList;
 //    }
 
-    public Vaccination createVaccinationByDoctor(LocalDate date, String startMinute, String amka, LocalDate expirationDate) {
-
-        Insured insured_person = insuredService.getInsuredByAmka(amka);
-
-        if (insured_person == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
-        }
-
-        Timeslot timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
-        if (timeslot == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot does not exist");
-        }
-
-        Vaccination vaccination = new Vaccination(insured_person, timeslot.getDoctor(),
-                timeslot.getDate(), expirationDate); //LocalDate.now(): gives the date that you run
-        vaccination.setDoctor(timeslot.getDoctor()); //assign Doctor with a timeslot
-        vaccinationList.add(vaccination);
-        return vaccination;
-    }
+//    public Vaccination createVaccinationByDoctor(LocalDate date, String startMinute, String amka, LocalDate expirationDate) {
+//
+//        Insured insured_person = insuredService.getInsuredByAmka(amka);
+//
+//        if (insured_person == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
+//        }
+//
+//        Timeslot timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
+//        if (timeslot == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot does not exist");
+//        }
+//
+//        Vaccination vaccination = new Vaccination(insured_person, timeslot.getDoctor(),
+//                timeslot.getDate(), expirationDate); //LocalDate.now(): gives the date that you run
+//        vaccination.setDoctor(timeslot.getDoctor()); //assign Doctor with a timeslot
+//        vaccinationList.add(vaccination);
+//        return vaccination;
+//    }
 
     public Vaccination getVaccinationByDate(LocalDate date) {
         for (Vaccination vaccination : vaccinationList) {
@@ -93,5 +92,30 @@ public class VaccinationService {
             return new VaccinationStatusDTO(false, vaccination.getExpirationDate());
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
+
+    public Vaccination createVaccinationByDoctor(LocalDate date, String startMinute, String amka, LocalDate expirationDate) {
+        // Check if there is an insured person with the given amka
+        Insured insured_person = insuredService.getInsuredByAmka(amka);
+        if (insured_person == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured with" +amka+ "does not exist");
+        }
+
+        // Check if there is a reservation for the insured person
+        Reservation reservation = reservationService.getReservationByAmka(amka);
+        if (reservation == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation does not exist for this amka");
+        }
+
+        // Check if the given date matches the Timeslot associated with the reservation
+        Timeslot timeslot = reservation.getTimeslot();
+        if (timeslot == null || !timeslot.getDate().equals(date)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Date does not match reservation");
+        }
+
+        Vaccination vaccination = new Vaccination(insured_person, timeslot.getDoctor(),
+                date, expirationDate);
+        vaccinationList.add(vaccination);
+        return vaccination;
     }
 }

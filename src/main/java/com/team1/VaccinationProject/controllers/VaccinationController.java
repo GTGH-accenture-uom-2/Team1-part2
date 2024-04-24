@@ -5,6 +5,7 @@ import com.team1.VaccinationProject.models.Insured;
 import com.team1.VaccinationProject.models.Vaccination;
 
 import com.team1.VaccinationProject.models.VaccinationStatusDTO;
+import com.team1.VaccinationProject.services.ReservationService;
 import com.team1.VaccinationProject.services.VaccinationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -78,6 +79,8 @@ public class VaccinationController {
     public VaccinationStatusDTO checkVaccinationStatusByAmka(@RequestParam String amka){
         return vaccinationService.checkVaccinationStatusByAmka(amka);
     }
+
+
 
 }
 

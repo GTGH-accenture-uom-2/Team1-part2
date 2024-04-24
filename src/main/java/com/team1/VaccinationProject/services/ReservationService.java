@@ -131,6 +131,60 @@ public class ReservationService {
         }
         return foundReservations;
     }
+
+    //pagination
+    //the method will return all created Reservations for a specific doctor and a specfic day sorted and using pagination
+    public List<Reservation> getAllDoctorsReservationsPagination(String doctorAmka, LocalDate date, int pageNumber, int pageSize) {
+
+        //we have to sort the list of reservations before the pagination
+
+        List<Reservation> reservationListCopy = new ArrayList<>(reservationList);
+        reservationListCopy.sort((r1, r2) -> {
+            int dateComparison = r1.getTimeslot().getDate().compareTo(r2.getTimeslot().getDate());
+            if (dateComparison == 0) {
+                return r1.getDoctor().getAmka().compareTo(r2.getDoctor().getAmka());
+            } else {
+                return dateComparison;
+            }
+        });
+
+        List<Reservation> foundReservations = new ArrayList<>();
+        int startIndex = (pageNumber - 1) * pageSize; //pageNumber->number of the page. first page is the 1 not 0.
+        // pageSize->maximum number of reservations in the page
+        //startIndex->firstReservation of the page
+        int endIndex = startIndex + pageSize;
+
+        //pagination
+        for (int i = 0; i < reservationListCopy.size(); i++) {
+            Reservation reservation = reservationListCopy.get(i);
+            if (reservation.getDoctor().getAmka().equals(doctorAmka) && reservation.getTimeslot().getDate().equals(date)) {
+                if (i >= startIndex && i < endIndex) {
+                    foundReservations.add(reservation);
+                }
+                if (foundReservations.size() == pageSize) {
+                    break;
+                }
+            }
+        }
+        return foundReservations;
+    }
+
+    public Reservation updateReservation(String amka, LocalDate newDate, String startMinute) {
+        //Get insured
+        Insured insured = insuredService.getInsuredByAmka(amka);
+        //Get reservation
+        Reservation reservation = getReservationByAmka(amka);
+        //Get timeslot and check if it is empty
+        Timeslot timeslot = timeslotService.getTimeslotByDateHour(newDate, startMinute);
+        if (timeslot.getHasReservation()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot has already been booked");
+        }
+
+        //Set new timeslot as reserved
+        reservation.setTimeslot(timeslot);
+        timeslot.setHasReservation(true);
+        return reservation;
+    }
 }
 //    public Reservation updateReservation(String amka, LocalDate date, String startMinute) {
 //        List<Timeslot> timeslotList = new ArrayList<>();
