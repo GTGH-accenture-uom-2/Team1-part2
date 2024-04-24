@@ -79,5 +79,10 @@ public class VaccinationController {
         return vaccinationService.checkVaccinationStatusByAmka(amka);
     }
 
+    @GetMapping("/statusQR")
+    public String checkVaccinationStatusQR(@RequestParam String amka){
+        return vaccinationService.checkVaccinationStatusQR(amka);
+    }
+
 }
 

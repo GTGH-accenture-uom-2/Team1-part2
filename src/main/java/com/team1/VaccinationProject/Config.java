@@ -3,7 +3,6 @@ package com.team1.VaccinationProject;
 import com.team1.VaccinationProject.models.*;
 import com.team1.VaccinationProject.services.*;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
@@ -44,7 +43,7 @@ public class Config {
             }
 
 
-            //Add Vaccination centers??-----------------------------
+            //Add Vaccination centers-----------------------------
 
 
             //Add one doctor with specific data for testing purposes

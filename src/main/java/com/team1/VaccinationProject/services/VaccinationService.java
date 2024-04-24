@@ -1,10 +1,18 @@
 package com.team1.VaccinationProject.services;
 
+import com.google.zxing.WriterException;
 import com.team1.VaccinationProject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.io.IOException;
+import java.util.HashMap;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.WriterException;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -100,6 +108,35 @@ public class VaccinationService {
         else if (vaccination.getExpirationDate().isBefore(LocalDate.now())) {
             return new VaccinationStatusDTO(false, vaccination.getExpirationDate());
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vaccination not found");
     }
+
+    //Add method to return qr code
+    public String checkVaccinationStatusQR(String amka) {
+        Vaccination vaccination = getVaccinationByAmka(amka);
+        if(vaccination.getExpirationDate().isAfter(LocalDate.now())){
+            try {
+                VaccinationStatusDTO.createQR("Vaccinated until: "+ vaccination.getExpirationDate(), "vaccination.png", "UTF-8",
+                        new HashMap<EncodeHintType, ErrorCorrectionLevel>());
+            }
+            catch (Exception e){
+                System.out.println(e);
+            }
+            return "File Downloaded";
+        }
+        else if (vaccination.getExpirationDate().isBefore(LocalDate.now())) {
+            try {
+                VaccinationStatusDTO.createQR("Vaccination expired at: "+ vaccination.getExpirationDate(), "vaccination.png", "UTF-8",
+                        new HashMap<EncodeHintType, ErrorCorrectionLevel>());
+            }
+            catch (Exception e){
+                System.out.println(e);
+            }
+            return "File Downloaded";
+
+        }
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vaccination not found");
+    }
+
 }
