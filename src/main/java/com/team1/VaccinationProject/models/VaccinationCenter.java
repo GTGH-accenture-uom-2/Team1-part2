@@ -5,13 +5,29 @@ import java.util.ArrayList;
 public class VaccinationCenter {
     private String code;
     private String address;  // Corrected instance variable name
-    private ArrayList<Timeslot> timeslots;
+    private ArrayList<TimeslotDTO> timeslots;
 
     // Constructor
-    public VaccinationCenter(String code, String address, ArrayList<Timeslot> timeslots) {
+    public VaccinationCenter(String code, String address, ArrayList<TimeslotDTO> timeslots) {
         this.code = code;
         this.address = address;
         this.timeslots = timeslots;
+    }
+
+    // Constructor without timeslots
+    public VaccinationCenter(String code, String address) {
+        this.code = code;
+        this.address = address;
+        this.timeslots = new ArrayList<>();
+    }
+
+    //Empty constructor
+    public VaccinationCenter(){}
+
+    //Add/assign timeslots
+    public void addTimeslot(TimeslotDTO timeslotDTO){
+        timeslotDTO.setVaccinationCenterCode(this.code);
+        timeslots.add(timeslotDTO);
     }
 
     // Getter methods
@@ -23,7 +39,7 @@ public class VaccinationCenter {
         return address;
     }
 
-    public ArrayList<Timeslot> getTimeslots() {
+    public ArrayList<TimeslotDTO> getTimeslots() {
         return timeslots;
     }
 
@@ -36,7 +52,7 @@ public class VaccinationCenter {
         this.address = address;
     }
 
-    public void setTimeslots(ArrayList<Timeslot> timeslots) {
+    public void setTimeslots(ArrayList<TimeslotDTO> timeslots) {
         this.timeslots = timeslots;
     }
 

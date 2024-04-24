@@ -10,6 +10,7 @@ public class Insured {
     private String surname;
     private LocalDate birthday;
     private String email;
+    private int updateCounter = 0;
     //private Boolean hasReservation;  //boolean variable to show if a citizen has a reservation for vaccination
 
     //Constructor no. 1
@@ -22,17 +23,7 @@ public class Insured {
         this.email = email;
     }
 
-   /* //2. Constructor no. 2 (overload - use for main class)
-    public Insured(String name, LocalDate birthday){
-        this.name = name;
-        this.birthday = birthday;
-    }*/
-
-    //3. Constructor no. 3
-    public Insured() {}
-
     //Getters and Setters
-
     public String getAfm() {
         return afm;
     }
@@ -79,5 +70,13 @@ public class Insured {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getUpdateCounter() {
+        return updateCounter;
+    }
+
+    public void setUpdateCounter(int updateCounter) {
+        this.updateCounter = updateCounter;
     }
 }

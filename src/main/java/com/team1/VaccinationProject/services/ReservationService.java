@@ -1,9 +1,6 @@
 package com.team1.VaccinationProject.services;
 
-import com.team1.VaccinationProject.models.Doctor;
-import com.team1.VaccinationProject.models.Insured;
-import com.team1.VaccinationProject.models.Reservation;
-import com.team1.VaccinationProject.models.Timeslot;
+import com.team1.VaccinationProject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +21,9 @@ public class ReservationService {
     TimeslotService timeslotService;
     @Autowired
     DoctorService doctorService;
+    @Autowired
+            VaccinationCenterService vaccinationCenterService;
+
 
 
 
@@ -39,24 +39,15 @@ public class ReservationService {
 
         // let's get the Insured from the Reservation class
         Insured insured = insuredService.getInsuredByAmka(amka);
-        // check if 'AMKA' is valid
-        if (amka == null || amka.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AMKA is required");
-        }
 
         // let's define the timeslot // and check timeslots' availability
-        Timeslot timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
-        if (timeslot == null || timeslot.getHasReservation()) { //==true
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid or already booked timeslot");
-        }
+        TimeslotDTO timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
 
-        Doctor doctor = doctorService.getDoctorByAmka(dAmka); //ή με το ΑΦΜ
-        //ισως χρειαστει και το ονομα του να κανουμε στο by name doctorServices.get
-        if (doctor == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor does not exist");
-        }
+        Doctor doctor = doctorService.getDoctorByAmka(dAmka);
 
-        Reservation reservation = new Reservation(insured, timeslot, doctor);
+
+
+        Reservation reservation = new Reservation(insured, timeslot, doctor, timeslot.getVaccinationCenterCode());
         reservationList.add(reservation);
         timeslot.setHasReservation(true);   //to set the specific timeslot as booked
         return reservation;
@@ -90,22 +81,37 @@ public class ReservationService {
         return reservationList;
     }
 
-    public Reservation updateReservation(LocalDate date, Insured insured, Timeslot timeslot) {
-        Reservation reservation = getReservationByDate(date);
-        if (insured != null) reservation.setInsured(insured);
-        if (timeslot != null) reservation.setTimeslot(timeslot);
+
+    public Reservation updateReservation(String amka, LocalDate newDate, String startMinute) {
+        //Get insured
+        Insured insured = insuredService.getInsuredByAmka(amka);
+        //Get reservation
+        Reservation reservation = getReservationByAmka(amka);
+        //Get timeslot and check if it is empty
+        TimeslotDTO timeslot = timeslotService.getTimeslotByDateHour(newDate, startMinute);
+        if (timeslot.getHasReservation()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot has already been booked");
+        }
+        if (insured.getUpdateCounter() >= 2){
+            throw  new RuntimeException("Reservation update limit reached");
+        }
+
+        //Set old timeslot as free
+        reservation.getTimeslot().setHasReservation(false);
+        //Increase update counter
+        insured.setUpdateCounter(insured.getUpdateCounter()+ 1);
+        //Set new timeslot as reserved
+        reservation.setTimeslot(timeslot);
+        timeslot.setHasReservation(true);
         return reservation;
     }
+
 
     public List<Reservation> deleteReservation(String amka) {
         Reservation reservation = getReservationByAmka(amka);
         reservationList.remove(reservation);
         return reservationList;
     }
-
-
-//--------------------------------------------------------------------------------------------------------------------
-    //eleni
 
 
     //the method will return all created Reservations for a specific doctor
@@ -132,30 +138,4 @@ public class ReservationService {
         }
         return foundReservations;
     }
-
-    public Reservation updateReservation(String amka, LocalDate newdate, String startMinute) {
-        //Get insured
-        Insured insured = insuredService.getInsuredByAmka(amka);
-        //Get reservation
-        Reservation reservation = getReservationByAmka(amka);
-        //Get timeslot and check if it is empty
-        Timeslot timeslot = timeslotService.getTimeslotByDateHour(newdate, startMinute);
-        if (timeslot.getHasReservation()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot has already been booked");
-        }
-        reservation.getTimeslot().setHasReservation(false);
-
-        //Set new timeslot as reserved
-        reservation.setTimeslot(timeslot);
-        timeslot.setHasReservation(true);
-        return reservation;
-    }
-
 }
-
-
-//    public List<Reservation> deleteReservation(String amka) {
-//        Reservation reservation = getReservationByAmka(amka);
-//        reservationList.remove(reservation);
-//        return reservationList;
-//    }

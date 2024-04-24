@@ -1,17 +1,16 @@
-/* Class: Timeslot */
 package com.team1.VaccinationProject.models;
 import java.time.LocalDate;
 
 public class Timeslot {
     private LocalDate date;
-    private int hour;
-    private int minutes;
+    // POSSIBLE REMOVE private int hour;
+    // POSSIBLE REMOVE private int minutes;
     private String startMinute;
     private String endMinute;
     private Doctor doctor;
     private Boolean hasReservation = false;
 
-
+/*
     public Timeslot(LocalDate date, int hour,
                     int minutes, String startMinute, String endMinute, Doctor doctor, Boolean hasReservation){
         this.date = date;
@@ -21,41 +20,42 @@ public class Timeslot {
         this.endMinute = endMinute;
         this.doctor = doctor;
         this.hasReservation = hasReservation;
-    }
+    }*/
 
-    //add this constructor:
+
     public Timeslot(LocalDate date, String startMinute) {
         this.date = date;
         this.startMinute = startMinute;
+        this.endMinute = startMinute.replaceAll(":00", ":30");
     }
 
-    public Timeslot(){}
 
+    //Method to convert timeslot to timeslotDto
+    public TimeslotDTO toDto(){
+        return new TimeslotDTO(this.date, this.startMinute, this.endMinute);
+    }
 
     //Method to assign a doctor to this timeslot
-    public void assignDoctor(Doctor dr){this.doctor = dr;}
+    public void assignDoctor(Doctor dr){
+        this.doctor = dr;
+
+    }
 
 
     // Getters and setters
 
-    public LocalDate getDate() {
-        /* check Date validation - not NULL */
-        if (date == null) {
-            throw new IllegalStateException("The date cannot be null");
-        }
-        return date;
-    }
+    public LocalDate getDate() {return date;}
 
     public void setDate(LocalDate date) {this.date = date;}
+    /*
+        public int getHour() {return hour;}
 
-    public int getHour() {return hour;}
+        /*public void setHour(int hour) {this.hour = hour;}
 
-    public void setHour(int hour) {this.hour = hour;}
+        public int getMinutes() {return minutes;}
 
-    public int getMinutes() {return minutes;}
-
-    public void setMinutes(int minutes) {this.minutes = minutes;}
-
+        public void setMinutes(int minutes) {this.minutes = minutes;}
+    */
     public String getStartMinute() {return startMinute;}
 
     public void setStartMinute(String startMinute) {this.startMinute = startMinute;}

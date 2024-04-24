@@ -10,13 +10,15 @@ public class Vaccination {
     private Doctor doctor;
     private LocalDate vaccinationDate;
     private LocalDate expirationDate;
+    private TimeslotDTO timeslotDTO;
 
     //Constructor
-    public Vaccination(Insured insured, Doctor doctor, LocalDate vaccinationDate, LocalDate expirationDate) {
+    public Vaccination(Insured insured, Doctor doctor, LocalDate vaccinationDate, LocalDate expirationDate, TimeslotDTO timeslotDTO) {
         this.insured = insured;
         this.doctor = doctor;
         this.vaccinationDate = vaccinationDate;
         this.expirationDate = expirationDate;
+        this.timeslotDTO = timeslotDTO;
     }
 
     //Method to assign a doctor to this vaccination
@@ -55,6 +57,14 @@ public class Vaccination {
 
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public TimeslotDTO getTimeslotDTO() {
+        return timeslotDTO;
+    }
+
+    public void setTimeslotDTO(TimeslotDTO timeslotDTO) {
+        this.timeslotDTO = timeslotDTO;
     }
 
     @Override

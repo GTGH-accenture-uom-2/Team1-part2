@@ -3,15 +3,16 @@ package com.team1.VaccinationProject.models;
 
 public class Reservation {
     private Insured insured;
-    private Timeslot timeslot;
-//maybe, we need to add:
-   private Doctor doctor;
+    private TimeslotDTO timeslot;
+    private Doctor doctor;
+    private String vaccinationCenterCode;
 
 
-    public Reservation(Insured insured, Timeslot timeslot ,Doctor doctor){
+    public Reservation(Insured insured, TimeslotDTO timeslot, Doctor doctor, String vaccinationCenterCode){
         this.insured = insured;
         this.timeslot = timeslot;
         this.doctor = doctor;
+        this.vaccinationCenterCode = vaccinationCenterCode;
     }
 
     public Reservation() {}
@@ -26,13 +27,20 @@ public class Reservation {
         this.insured = insured;
     }
 
-    public Timeslot getTimeslot() {return timeslot;}
+    public TimeslotDTO getTimeslot() {return timeslot;}
 
-    public void setTimeslot(Timeslot timeslot) {this.timeslot = timeslot;}
+    public void setTimeslot(TimeslotDTO timeslot) {this.timeslot = timeslot;}
 
     public Doctor getDoctor() {return doctor;}
 
     public void setDoctor(Doctor doctor) {this.doctor = doctor;}
 
+    public String getVaccinationCenterCode() {
+        return vaccinationCenterCode;
+    }
+
+    public void setVaccinationCenterCode(String getVaccinationCenterCode) {
+        this.vaccinationCenterCode = getVaccinationCenterCode;
+    }
 }
 

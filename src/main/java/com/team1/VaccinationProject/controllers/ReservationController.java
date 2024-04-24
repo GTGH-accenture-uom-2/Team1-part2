@@ -60,7 +60,6 @@ public class ReservationController {
         return reservationService.getAllReservations();
     }
 
-
     //method to update a reservation UP TO TWO TIMES
     @PutMapping("/update")
     public Reservation updateReservation(@RequestParam(required = true) String amka,
@@ -74,5 +73,4 @@ public class ReservationController {
     public List<Reservation> deleteReservation(@RequestParam String amka){
         return reservationService.deleteReservation(amka);
     }
-
 }

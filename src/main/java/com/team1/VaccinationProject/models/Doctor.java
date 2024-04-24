@@ -1,6 +1,5 @@
-/* Class: Doctor */
 package com.team1.VaccinationProject.models;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,36 +7,32 @@ public class Doctor{
     private String amka;
     private String name;
     private String surname;
-    private List<Timeslot> timeslots;
+    private List<TimeslotDTO> timeslots;
     private List<Vaccination> vaccinations;
 
-    public Doctor(String amka, String name, String surname, List<Timeslot> timeslots) {
+    public Doctor(String amka, String name, String surname, List<TimeslotDTO> timeslots, List<Vaccination> vaccinations) {
         this.amka = amka;
         this.name = name;
         this.surname = surname;
         this.timeslots = timeslots;
+        this.vaccinations = vaccinations;
     }
 
-    //add this:
+    //Constructor without preset arrays
     public Doctor(String amka, String name, String surname) {
         this.amka = amka;
         this.name = name;
         this.surname = surname;
+        this.timeslots = new ArrayList<TimeslotDTO>();
     }
-
-    public Doctor() {}
 
 
     //Method to add/assign new timeslots to a doctor
-    public void addTimeslot(Timeslot timeslot){
-        timeslots.add(timeslot);
-        timeslot.assignDoctor(this);
+    public void addTimeslot(TimeslotDTO timeslotDTO){
+        timeslotDTO.setDoctorAmka(this.amka);
+        timeslots.add(timeslotDTO);
     }
 
-    //Method to add/assign new vaccinations to a doctor
-    public void addVaccination(Vaccination vaccination){
-        vaccinations.add(vaccination);
-    }
 
     //Getter and Setter
 
@@ -53,19 +48,12 @@ public class Doctor{
 
     public void setSurname(String surname) {this.surname = surname;}
 
-    public List<Timeslot> getTimeslots() {
+    public List<TimeslotDTO> getTimeslots() {
         return timeslots;
     }
 
-    public void setTimeslots(List<Timeslot> timeslots) {
+    public void setTimeslots(List<TimeslotDTO> timeslots) {
         this.timeslots = timeslots;
     }
 
-    public List<Vaccination> getVaccinations() {
-        return vaccinations;
-    }
-
-    public void setVaccinations(List<Vaccination> vaccinations) {
-        this.vaccinations = vaccinations;
-    }
 }
