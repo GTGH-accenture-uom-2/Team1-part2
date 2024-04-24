@@ -26,6 +26,7 @@ public class ReservationService {
     DoctorService doctorService;
 
 
+
     List<Reservation> reservationList = new ArrayList<>();
 
 
@@ -131,40 +132,27 @@ public class ReservationService {
         }
         return foundReservations;
     }
+
+    public Reservation updateReservation(String amka, LocalDate newdate, String startMinute) {
+        //Get insured
+        Insured insured = insuredService.getInsuredByAmka(amka);
+        //Get reservation
+        Reservation reservation = getReservationByAmka(amka);
+        //Get timeslot and check if it is empty
+        Timeslot timeslot = timeslotService.getTimeslotByDateHour(newdate, startMinute);
+        if (timeslot.getHasReservation()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot has already been booked");
+        }
+        reservation.getTimeslot().setHasReservation(false);
+
+        //Set new timeslot as reserved
+        reservation.setTimeslot(timeslot);
+        timeslot.setHasReservation(true);
+        return reservation;
+    }
+
 }
-//    public Reservation updateReservation(String amka, LocalDate date, String startMinute) {
-//        List<Timeslot> timeslotList = new ArrayList<>();
-//        // check if 'AMKA' is valid
-//        if (amka == null || amka.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AMKA is required");
-//        }
-//
-//        // check if timeslot is available
-//        if (timeslotServices.findTimeslotByDate(date).stream().
-//                anyMatch(timeslot -> timeslot.getHasReservation().equals(true))){
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This timeslot has already been booked");
-//        }
-//        for (Reservation reservation : reservationList) {
-//            if (reservation.getInsured().getAmka().equals(amka)) {
-//                //find timeslot by date
-//                reservation.setTimeslot(timeslotServices.findTimeslotByDate(date).get(0));
-//                reservation.getTimeslot().setDate(date);
-//                timeslotList.add(reservation.getTimeslot());
-//                return reservation;
-//
-//            }
-//        }
-//
-//
-//    }
 
-
-//    public Reservation updateReservation(LocalDate date, Insured insured, Timeslot timeslot) {
-//        Reservation reservation = getReservationByDate(date);
-//        if (insured!= null) reservation.setInsured(insured);
-//        if (timeslot!= null) reservation.setTimeslot(timeslot);
-//        return reservation;
-//    }
 
 //    public List<Reservation> deleteReservation(String amka) {
 //        Reservation reservation = getReservationByAmka(amka);
