@@ -26,6 +26,7 @@ public class ReservationService {
 
 
 
+
     List<Reservation> reservationList = new ArrayList<>();
 
 
@@ -113,10 +114,6 @@ public class ReservationService {
     }
 
 
-//--------------------------------------------------------------------------------------------------------------------
-    //eleni
-
-
     //the method will return all created Reservations for a specific doctor
     public List<Reservation> getAllDoctorsReservations(String doctorAfm) {
         //Doctor doctor = doctorServices.getDoctorByAfm(doctorAfm);
@@ -142,4 +139,3 @@ public class ReservationService {
         return foundReservations;
     }
 }
-

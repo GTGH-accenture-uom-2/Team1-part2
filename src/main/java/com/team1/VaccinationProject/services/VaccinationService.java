@@ -1,6 +1,7 @@
 package com.team1.VaccinationProject.services;
 
 import com.google.zxing.WriterException;
+
 import com.team1.VaccinationProject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,6 @@ public class VaccinationService {
     @Autowired
     ReservationService reservationService;
 
-
     List<Vaccination> vaccinationList = new ArrayList<>();
 
 //    public List<Vaccination> createVaccination(Vaccination vaccination) {
@@ -39,11 +39,10 @@ public class VaccinationService {
 //    }
 
     public Vaccination createVaccinationByDoctor(LocalDate date, String startMinute, String amka, LocalDate expirationDate) {
-
+        // Check if there is an insured person with the given amka
         Insured insured_person = insuredService.getInsuredByAmka(amka);
-
         if (insured_person == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured with" +amka+ "does not exist");
         }
 
         // Check if there is a reservation for the insured person
@@ -53,16 +52,25 @@ public class VaccinationService {
         }
 
         TimeslotDTO timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
-        if (timeslot == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot does not exist");
+        // Check if the given date matches the Timeslot associated with the reservation
+        if (timeslot == null || !timeslot.getDate().equals(date)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Date does not match reservation");
         }
+      
+      
+        vaccination.setDoctor(doctorService.getDoctorByAmka(timeslot.getDoctorAmka())); //assign Doctor with a timeslot
 
+        
         Vaccination vaccination = new Vaccination(insured_person, doctorService.getDoctorByAmka(timeslot.getDoctorAmka()),
                 timeslot.getDate(), expirationDate, timeslot); //LocalDate.now(): gives the date that you run
-        vaccination.setDoctor(doctorService.getDoctorByAmka(timeslot.getDoctorAmka())); //assign Doctor with a timeslot
+        
+
+        //Vaccination vaccination = new Vaccination(insured_person, timeslot.getDoctor(),
+        //        date, expirationDate);
         vaccinationList.add(vaccination);
         return vaccination;
     }
+
 
     public Vaccination getVaccinationByDate(LocalDate date) {
         for (Vaccination vaccination : vaccinationList) {

@@ -63,24 +63,14 @@ public class ReservationController {
     //method to update a reservation UP TO TWO TIMES
     @PutMapping("/update")
     public Reservation updateReservation(@RequestParam(required = true) String amka,
-                                         @RequestParam(required = true) LocalDate newDate,
+                                         @RequestParam(required = true) LocalDate newdate,
                                          @RequestParam(required = true) String startMinute){
-        return reservationService.updateReservation(amka, newDate, startMinute);
+        return reservationService.updateReservation(amka, newdate, startMinute);
     }
+
 
     @DeleteMapping
     public List<Reservation> deleteReservation(@RequestParam String amka){
         return reservationService.deleteReservation(amka);
     }
-
-
-
-
-
-
-//    @DeleteMapping
-//    public List<Reservation> deleteReservation(@RequestParam String amka){
-//        return reservationServices.deleteReservation(amka);
-//    }
-
 }
