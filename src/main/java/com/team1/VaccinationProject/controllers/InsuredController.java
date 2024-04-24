@@ -16,22 +16,25 @@ public class InsuredController {
 
     //------------- C.R.U.D. Insured Controller -------------
 
-    // create a list of Insured people
+    // Create a new Insured
     @PostMapping
     public List<Insured> createInsured(@RequestBody Insured insured) {
         return insuredService.createInsured(insured);
     }
 
+    //Return Insured by amka
     @GetMapping("/amka")
     public Insured getInsuredByAmka(@RequestParam String amka) {
         return insuredService.getInsuredByAmka(amka);
     }
 
+    //Return Insured by afm
     @GetMapping("/afm")
     public Insured getInsuredByAfm(@RequestParam String afm) {
         return insuredService.getInsuredByAfm(afm);
     }
 
+    //Return all Insured
     @GetMapping("/all")
     public List<Insured> getAllInsured() {
         return insuredService.getAllInsured();
@@ -39,25 +42,22 @@ public class InsuredController {
 
 
 
-
+    //POSSIBLE REMOVE
     @DeleteMapping
     public List<Insured> deleteInsured(@RequestParam String amka){
         return insuredService.deleteInsured(amka);
     }
 
+    //POSSIBLE REMOVE
+    @PutMapping
+    public Insured updateInsured(@RequestParam String amka,
+                                 @RequestParam(required = false) String name,
+                                 @RequestParam(required = false) String surname,
+                                 @RequestParam(required = false) LocalDate birthday,
+                                 @RequestParam(required = false) String email){
 
-    //    @PutMapping
-//    public Insured updateInsured(@RequestParam String amka,
-//                                 @RequestParam(required = false) String name,
-//                                 @RequestParam(required = false) String surname,
-//                                 @RequestParam(required = false) LocalDate birthday,
-//                                 @RequestParam(required = false) String email){
-//
-//        return insuredServices.updateInsured(amka, name, surname, birthday, email);
-//    }
-
-//    @DeleteMapping
-//    }
-//    public List<Insured> deleteInsured(@RequestParam String amka){
-//        return insuredServices.deleteInsured(amka);
+        return insuredService.updateInsured(amka, name, surname, birthday, email);
+    }
 }
+
+

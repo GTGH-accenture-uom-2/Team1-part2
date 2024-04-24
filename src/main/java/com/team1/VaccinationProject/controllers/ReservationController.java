@@ -60,11 +60,12 @@ public class ReservationController {
         return reservationService.getAllReservations();
     }
 
-    @PutMapping
-    public Reservation updateReservation(@RequestParam LocalDate date,
-                                         @RequestBody(required = false) Insured insured,
-                                         @RequestBody(required = false) Timeslot timeslot){
-        return reservationService.updateReservation(date, insured, timeslot);
+    //method to update a reservation UP TO TWO TIMES
+    @PutMapping("/update")
+    public Reservation updateReservation(@RequestParam(required = true) String amka,
+                                         @RequestParam(required = true) LocalDate newDate,
+                                         @RequestParam(required = true) String startMinute){
+        return reservationService.updateReservation(amka, newDate, startMinute);
     }
 
     @DeleteMapping
@@ -73,17 +74,7 @@ public class ReservationController {
     }
 
 
-//    //method to update a reservation UP TO TWO TIMES
-//    @PutMapping("/update")
-//    public Reservation updateReservation(@RequestParam(required = true) String amka,
-//                                         @RequestParam(required = true) LocalDate date,
-//                                         @RequestParam(required = true) String startMinute){
-//        return reservationServices.updateReservation(amka, date, startMinute);
-//    }
 
-//    public Reservation addReservation(@RequestBody Reservation reservation) {
-//
-//    }
 
 
 

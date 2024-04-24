@@ -23,52 +23,53 @@ public class DoctorController {
 
     //------------- C.R.U.D. Doctor Controller -------------
 
+    //Create a new Doctor
     @PostMapping
     public List<Doctor> createDoctor(@RequestBody Doctor doctor) {
         return doctorService.createDoctor(doctor);
     }
 
+    //Get Doctor by amka
     @GetMapping("/amka")
     public Doctor getDoctorByAmka(@RequestParam String amka) {
         return doctorService.getDoctorByAmka(amka);
     }
 
-
+    //Get all Doctors
     @GetMapping("/all")
     public List<Doctor> getAllDoctors() {
         return doctorService.getAllDoctors();
     }
 
+    //POSSIBLE REMOVE-----------
+    //Update doctor
+    @PutMapping
+    public Doctor updateDoctor(@RequestParam String amka,
+                               @RequestParam(required = false) String name,
+                               @RequestParam(required = false) String surname){
+        return doctorService.updateDoctor(amka, name, surname);
+    }
 
+    //POSSIBLE REMOVE-----------
+    //Delete doctor
     @DeleteMapping
-    public List<Doctor> deleteDoctor(@RequestParam String amka) {
+    public List<Doctor> deleteDoctor(@RequestParam String amka){
         return doctorService.deleteDoctor(amka);
     }
 
+
+//----------------------POSSIBLE MOVE TO RESERVATION CONTROLLER--------------------------------
+    //Get all reservations by doctor amka
     @GetMapping("/allreservations")
-    public List<Reservation> getDoctorReservations(@RequestParam(required = true) String amka) {
+    public List<Reservation> getDoctorReservations(@RequestParam String amka) {
         return reservationService.getAllDoctorsReservations(amka);
     }
 
+    //Get all reservations of specific date by doctor amka
     @GetMapping("/dayreservations")
     public List<Reservation> getAllDoctorsReservationsByDay(@RequestParam String amka, @RequestParam LocalDate date) {
         return reservationService.getAllDoctorsReservationsByDay(amka, date);
     }
 
 
-
-//    @PutMapping
-//    public Doctor updateDoctor(@RequestParam String amka,
-//                               @RequestParam(required = false) String name,
-//                               @RequestParam(required = false) String surname,
-//                               @RequestParam(required = false) LocalDate birthday,
-//                               @RequestParam(required = false) String email){
-//
-//        return doctorServices.updateDoctor(amka, name, surname, birthday, email);
-//    }
-
-//    @DeleteMapping
-//    public List<Doctor> deleteDoctor(@RequestParam String amka){
-//        return doctorServices.deleteDoctor(amka);
-//    }
 }

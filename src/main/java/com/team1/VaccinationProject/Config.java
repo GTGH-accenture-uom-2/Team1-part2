@@ -3,17 +3,10 @@ package com.team1.VaccinationProject;
 import com.team1.VaccinationProject.models.*;
 import com.team1.VaccinationProject.services.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Configuration
 public class Config {
@@ -31,38 +24,60 @@ public class Config {
                                                TimeslotService timeslotService,
                                                VaccinationService vaccinationService) {
         return args -> {
-            //Add four insured
-            insuredService.createInsured(new Insured("AFM_1", "AMKA_1", "Giannis", "A",
-                    LocalDate.of(1900,1, 1), "email1"));
-            insuredService.createInsured(new Insured("AFM_2", "AMKA_2", "Antonia", "P",
-                    LocalDate.of(1920,1, 1), "email2"));
-            insuredService.createInsured(new Insured("AFM_3", "AMKA_3", "Eleni", "T",
-                    LocalDate.of(1940,1, 1), "email3"));
-            insuredService.createInsured(new Insured("AFM_4", "AMKA_4", "Lina", "K",
-                    LocalDate.of(1960,1, 1), "email4"));
 
 
+            //Add one insured with specific data for testing purposes
+            //insuredService.createInsured(new Insured("AFM", "AMKA", "NAME", "SURNAME" , LocalDate.of(), "EMAIL"));
 
-            //Add two timeslots   //Timeslot - constructor: date, startMinute
-
-            Timeslot t1 = new Timeslot(LocalDate.of(2010, 1, 1), "10:00");
-            timeslotService.createTimeslot(t1);
-            Timeslot t2 = new Timeslot(LocalDate.of(2024, 4, 2), "11:00");
-            timeslotService.createTimeslot(t2);
-
-            //Add two doctors
-            doctorService.createDoctor( //Doctor - constructor: AMKA, name, surname, timeslot
-                    new Doctor("d_AMKA_1", "d_NAME_1", "d_SNAME_1", new ArrayList<>(List.of(t1)) ));
-            doctorService.createDoctor(
-                    new Doctor("d_AMKA_2", "d_NAME_2", "d_SNAME_2", new ArrayList<>(List.of(t2)) ));
+            //Add ten insured, AFM_0 to AFM_9, AMKA_0 to AMKA_9, name: NAME_0 to NAME_9, birthday 1-1-1900 to 1-1-1990
+            for (int i = 0; i < 10; i++) {
+                insuredService.createInsured(new Insured("AFM_"+i, "AMKA_"+i, "NAME_"+i, "SURNAME_"+i , LocalDate.of(1900 + 10*i,1, 1), "EMAIL_"+i));
+            }
 
 
-            reservationService.createReservation("AMKA_1", LocalDate.of(2024, 4, 2),
-                    "11:00", "d_AMKA_1");
+            //Add one timeslot with specific data for testing purposes
+            //timeslotService.createTimeslot(new Timeslot(LocalDate.of(2020, 1, 1), "11:00"));
+
+            //Add ten timeslots, dates 1-1-2020 to 9-1-2020, start minute 10:00
+            for (int i = 0; i < 10; i++) {
+                timeslotService.createTimeslot(new Timeslot(LocalDate.of(2020, 1, 1+i), "10:00"));
+            }
 
 
-            vaccinationService.createVaccinationByDoctor(LocalDate.of(2024,4,2), "11:00",
-                    "AMKA_1", LocalDate.of(2030, 5, 30));
+            //Add Vaccination centers??-----------------------------
+
+
+            //Add one doctor with specific data for testing purposes
+            //doctorService.createDoctor(new Doctor("D_AMKA", "D_NAME", "D_SURNAME"));
+            //doctor.addTimeslot(timeslotService.getAllTimeslotsDTO().get(INDEX));
+
+            //Add four doctors  AMKA_0 to AMKA_3, name: D_NAME_0 to D_NAME_3 amd assign timeslots
+            for (int i = 0; i < 4; i++) {
+                Doctor doctor = new Doctor("D_AMKA_"+i, "D_NAME_"+i, "D_SURNAME_"+i);
+                doctorService.createDoctor(doctor);
+                doctor.addTimeslot(timeslotService.getAllTimeslotsDTO().get(i));
+                doctor.addTimeslot(timeslotService.getAllTimeslotsDTO().get(i+4));
+            }
+
+
+            //Create reservation for testing purposes
+            //reservationService.createReservation("AMKA", Localdate.of(date), "startMinute", "doctorAmka");
+
+            //Create five reservations for five insured
+            for (int i = 0; i < 5; i++) {
+                TimeslotDTO timeslot = timeslotService.getTimeslotByDateHour(LocalDate.of(2020,1, 1+i), "10:00");
+                reservationService.createReservation("AMKA_"+i, timeslot.getDate(), timeslot.getStartMinute(), timeslot.getDoctorAmka());
+            }
+
+
+            //Create vaccination for testing purposes
+            //vaccinationService.createVaccinationByDoctor(LocalDate.of(timeslotDate), "startMinute", "amka", LocalDate.of(expirationDate));
+
+            //Create four vaccinations
+            for (int i = 0; i < 4; i++) {
+                Reservation reservation = reservationService.getReservationByAmka("AMKA_"+i);
+                vaccinationService.createVaccinationByDoctor(reservation.getTimeslot().getDate(), reservation.getTimeslot().getStartMinute(), reservation.getInsured().getAmka(), LocalDate.now().plusYears(2));
+            }
 
         };
 

@@ -2,6 +2,7 @@ package com.team1.VaccinationProject.services;
 
 import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Timeslot;
+import com.team1.VaccinationProject.models.TimeslotDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,33 +19,41 @@ public class TimeslotService {
     DoctorService doctorService;
 
     List<Timeslot> timeslotList = new ArrayList<>();
+    List<TimeslotDTO> timeslotDTOList = new ArrayList<>();
+
+
+
 
     //------------- C.R.U.D. Timeslot Services -------------
 
-    //1. create the following method - connected with method inside 'TimeslotController'
-    public List<Timeslot> createTimeslot(Timeslot timeslot) {
+    //Create new Timeslot service
+    public List<TimeslotDTO> createTimeslot(Timeslot timeslot) {
         timeslotList.add(timeslot);
-        return timeslotList;
+        timeslotDTOList.add(timeslot.toDto());
+        return timeslotDTOList;
     }
 
-    //2. create the following method - connected with method inside 'TimeslotController'
-    public List<Timeslot> findTimeslotByDate(LocalDate date) {
+    //Find Timeslots by date service
+    public List<TimeslotDTO> findTimeslotByDate(LocalDate date) {
 
-        //create a list of Timeslots that will be found with the corresponding given date
-        List<Timeslot> foundTimeslots = new ArrayList<>();
-        for (Timeslot timeslot : timeslotList) {
-            /* if timeslot found with the given date, then should return this timeslot*/
-            if (timeslot.getDate().equals(date)) { //use ".equals" instead of "=="
+        //Create a list of Timeslots that will be found with the corresponding given date
+        List<TimeslotDTO> foundTimeslots = new ArrayList<>();
+
+        for (TimeslotDTO timeslot : timeslotDTOList) {
+            //If the date is the one requested we add the timeslot to the list
+            if (timeslot.getDate().equals(date)) {
                 foundTimeslots.add(timeslot);
-                timeslot.setHasReservation(true);  //to set the specific timeslot as booked
-                return foundTimeslots;
             }
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot with date: [" + date + "] not found");
+        if (foundTimeslots.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot with date: [" + date + "] not found");
+        }
+        return foundTimeslots;
     }
 
-    public Timeslot getTimeslotByDateHour(LocalDate date, String startMinute) {
-        for (Timeslot timeslot : timeslotList) {
+    //Get Timeslot with specific date and hour service
+    public TimeslotDTO getTimeslotByDateHour(LocalDate date, String startMinute) {
+        for (TimeslotDTO timeslot : timeslotDTOList) {
             if (timeslot.getDate().equals(date) && timeslot.getStartMinute().equals(startMinute)) {
                 return timeslot;
             }
@@ -54,8 +63,8 @@ public class TimeslotService {
     }
 
 
-    //by DOCTOR
-    public Timeslot getTimeslotByDoctor(String dAmka) {
+    //Get Timeslot by Doctor
+    public TimeslotDTO getTimeslotByDoctor(String dAmka) {
 
         Doctor doctor = doctorService.getDoctorByAmka(dAmka);
         if(dAmka == null){
@@ -63,7 +72,7 @@ public class TimeslotService {
                     "Doctor's AFM cannot be null.");
         }
 
-        return timeslotList.stream()
+        return timeslotDTOList.stream()
                 .filter(x -> doctor.getAmka().equals(dAmka))
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -71,8 +80,15 @@ public class TimeslotService {
     }
 
 
+    //Get all timeslots service
+
     public List<Timeslot> getAllTimeslots() {
         return timeslotList;
+    }
+
+    //Get all timeslots dto service
+    public List<TimeslotDTO> getAllTimeslotsDTO() {
+        return timeslotDTOList;
     }
 
 }

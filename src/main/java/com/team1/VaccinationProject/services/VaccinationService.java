@@ -1,10 +1,6 @@
 package com.team1.VaccinationProject.services;
 
-import com.team1.VaccinationProject.models.Doctor;
-import com.team1.VaccinationProject.models.Insured;
-import com.team1.VaccinationProject.models.VaccinationStatusDTO;
-import com.team1.VaccinationProject.models.Timeslot;
-import com.team1.VaccinationProject.models.Vaccination;
+import com.team1.VaccinationProject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,6 +17,12 @@ public class VaccinationService {
     InsuredService insuredService;
     @Autowired
     TimeslotService timeslotService;
+    @Autowired
+    DoctorService doctorService;
+    @Autowired
+    ReservationService reservationService;
+
+
     List<Vaccination> vaccinationList = new ArrayList<>();
 
 //    public List<Vaccination> createVaccination(Vaccination vaccination) {
@@ -36,14 +38,20 @@ public class VaccinationService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
         }
 
-        Timeslot timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
+        // Check if there is a reservation for the insured person
+        Reservation reservation = reservationService.getReservationByAmka(amka);
+        if (reservation == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation does not exist for this amka");
+        }
+
+        TimeslotDTO timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
         if (timeslot == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot does not exist");
         }
 
-        Vaccination vaccination = new Vaccination(insured_person, timeslot.getDoctor(),
+        Vaccination vaccination = new Vaccination(insured_person, doctorService.getDoctorByAmka(timeslot.getDoctorAmka()),
                 timeslot.getDate(), expirationDate); //LocalDate.now(): gives the date that you run
-        vaccination.setDoctor(timeslot.getDoctor()); //assign Doctor with a timeslot
+        vaccination.setDoctor(doctorService.getDoctorByAmka(timeslot.getDoctorAmka())); //assign Doctor with a timeslot
         vaccinationList.add(vaccination);
         return vaccination;
     }

@@ -1,9 +1,6 @@
 package com.team1.VaccinationProject.services;
 
-import com.team1.VaccinationProject.models.Doctor;
-import com.team1.VaccinationProject.models.Insured;
-import com.team1.VaccinationProject.models.Reservation;
-import com.team1.VaccinationProject.models.Timeslot;
+import com.team1.VaccinationProject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,6 +23,7 @@ public class ReservationService {
     DoctorService doctorService;
 
 
+
     List<Reservation> reservationList = new ArrayList<>();
 
 
@@ -44,7 +42,7 @@ public class ReservationService {
         }
 
         // let's define the timeslot // and check timeslots' availability
-        Timeslot timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
+        TimeslotDTO timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
         if (timeslot == null || timeslot.getHasReservation()) { //==true
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid or already booked timeslot");
         }
@@ -89,12 +87,26 @@ public class ReservationService {
         return reservationList;
     }
 
-    public Reservation updateReservation(LocalDate date, Insured insured, Timeslot timeslot) {
-        Reservation reservation = getReservationByDate(date);
-        if (insured != null) reservation.setInsured(insured);
-        if (timeslot != null) reservation.setTimeslot(timeslot);
+
+    public Reservation updateReservation(String amka, LocalDate newDate, String startMinute) {
+        //Get insured
+        Insured insured = insuredService.getInsuredByAmka(amka);
+        //Get reservation
+        Reservation reservation = getReservationByAmka(amka);
+        //Get timeslot and check if it is empty
+        TimeslotDTO timeslot = timeslotService.getTimeslotByDateHour(newDate, startMinute);
+        if (timeslot.getHasReservation()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot has already been booked");
+        }
+
+        //Set old timeslot as free
+        reservation.getTimeslot().setHasReservation(false);
+        //Set new timeslot as reserved
+        reservation.setTimeslot(timeslot);
+        timeslot.setHasReservation(true);
         return reservation;
     }
+
 
     public List<Reservation> deleteReservation(String amka) {
         Reservation reservation = getReservationByAmka(amka);
@@ -132,42 +144,4 @@ public class ReservationService {
         return foundReservations;
     }
 }
-//    public Reservation updateReservation(String amka, LocalDate date, String startMinute) {
-//        List<Timeslot> timeslotList = new ArrayList<>();
-//        // check if 'AMKA' is valid
-//        if (amka == null || amka.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AMKA is required");
-//        }
-//
-//        // check if timeslot is available
-//        if (timeslotServices.findTimeslotByDate(date).stream().
-//                anyMatch(timeslot -> timeslot.getHasReservation().equals(true))){
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This timeslot has already been booked");
-//        }
-//        for (Reservation reservation : reservationList) {
-//            if (reservation.getInsured().getAmka().equals(amka)) {
-//                //find timeslot by date
-//                reservation.setTimeslot(timeslotServices.findTimeslotByDate(date).get(0));
-//                reservation.getTimeslot().setDate(date);
-//                timeslotList.add(reservation.getTimeslot());
-//                return reservation;
-//
-//            }
-//        }
-//
-//
-//    }
 
-
-//    public Reservation updateReservation(LocalDate date, Insured insured, Timeslot timeslot) {
-//        Reservation reservation = getReservationByDate(date);
-//        if (insured!= null) reservation.setInsured(insured);
-//        if (timeslot!= null) reservation.setTimeslot(timeslot);
-//        return reservation;
-//    }
-
-//    public List<Reservation> deleteReservation(String amka) {
-//        Reservation reservation = getReservationByAmka(amka);
-//        reservationList.remove(reservation);
-//        return reservationList;
-//    }
