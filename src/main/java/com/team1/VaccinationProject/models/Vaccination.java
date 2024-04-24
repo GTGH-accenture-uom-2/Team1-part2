@@ -2,7 +2,6 @@ package com.team1.VaccinationProject.models;
 
 
 /* Class: Vaccination */
-
 import java.time.LocalDate;
 
 public class Vaccination {

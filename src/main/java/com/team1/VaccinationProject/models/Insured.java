@@ -1,13 +1,11 @@
 /* Class: for Insured citizen or Doctor */
-/* It shares some common fields with the 'Doctor' class, so we make this class a Parent/Superclass
- * and as a subclass 'Doctor', which will inherit the common elements from the Superclass. */
 package com.team1.VaccinationProject.models;
 import java.time.LocalDate;
 
 public class Insured {
 
     private String afm;
-    private String amka; //or Long?
+    private String amka;
     private String name;
     private String surname;
     private LocalDate birthday;
@@ -30,6 +28,8 @@ public class Insured {
         this.birthday = birthday;
     }*/
 
+    //3. Constructor no. 3
+    public Insured() {}
 
     //Getters and Setters
 
@@ -80,9 +80,4 @@ public class Insured {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public Boolean hasReservation(){
-        return false;
-    }
-
 }

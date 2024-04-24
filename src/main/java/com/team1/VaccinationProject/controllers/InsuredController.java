@@ -1,5 +1,4 @@
 package com.team1.VaccinationProject.controllers;
-
 import com.team1.VaccinationProject.models.Insured;
 import com.team1.VaccinationProject.services.InsuredService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ public class InsuredController {
 
     //------------- C.R.U.D. Insured Controller -------------
 
+    // create a list of Insured people
     @PostMapping
     public List<Insured> createInsured(@RequestBody Insured insured) {
         return insuredService.createInsured(insured);
@@ -37,19 +37,27 @@ public class InsuredController {
         return insuredService.getAllInsured();
     }
 
-    @PutMapping
-    public Insured updateInsured(@RequestParam String amka,
-                                 @RequestParam(required = false) String name,
-                                 @RequestParam(required = false) String surname,
-                                 @RequestParam(required = false) LocalDate birthday,
-                                 @RequestParam(required = false) String email){
 
-        return insuredService.updateInsured(amka, name, surname, birthday, email);
-    }
+
 
     @DeleteMapping
     public List<Insured> deleteInsured(@RequestParam String amka){
         return insuredService.deleteInsured(amka);
     }
 
+
+    //    @PutMapping
+//    public Insured updateInsured(@RequestParam String amka,
+//                                 @RequestParam(required = false) String name,
+//                                 @RequestParam(required = false) String surname,
+//                                 @RequestParam(required = false) LocalDate birthday,
+//                                 @RequestParam(required = false) String email){
+//
+//        return insuredServices.updateInsured(amka, name, surname, birthday, email);
+//    }
+
+//    @DeleteMapping
+//    }
+//    public List<Insured> deleteInsured(@RequestParam String amka){
+//        return insuredServices.deleteInsured(amka);
 }

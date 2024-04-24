@@ -2,8 +2,10 @@ package com.team1.VaccinationProject.services;
 
 import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Insured;
-import com.team1.VaccinationProject.models.Vaccination;
 import com.team1.VaccinationProject.models.VaccinationStatusDTO;
+import com.team1.VaccinationProject.models.Timeslot;
+import com.team1.VaccinationProject.models.Vaccination;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,11 +17,35 @@ import java.util.List;
 @Service
 public class VaccinationService {
 
+    @Autowired
+    InsuredService insuredService;
+    @Autowired
+    TimeslotService timeslotService;
     List<Vaccination> vaccinationList = new ArrayList<>();
 
-    public List<Vaccination> createVaccination(Vaccination vaccination) {
+//    public List<Vaccination> createVaccination(Vaccination vaccination) {
+//        vaccinationList.add(vaccination);
+//        return vaccinationList;
+//    }
+
+    public Vaccination createVaccinationByDoctor(LocalDate date, String startMinute, String amka, LocalDate expirationDate) {
+
+        Insured insured_person = insuredService.getInsuredByAmka(amka);
+
+        if (insured_person == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
+        }
+
+        Timeslot timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
+        if (timeslot == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot does not exist");
+        }
+
+        Vaccination vaccination = new Vaccination(insured_person, timeslot.getDoctor(),
+                timeslot.getDate(), expirationDate); //LocalDate.now(): gives the date that you run
+        vaccination.setDoctor(timeslot.getDoctor()); //assign Doctor with a timeslot
         vaccinationList.add(vaccination);
-        return vaccinationList;
+        return vaccination;
     }
 
     public Vaccination getVaccinationByDate(LocalDate date) {

@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,6 @@ import java.util.List;
 public class InsuredService {
 
     List<Insured> insuredList = new ArrayList<>();
-
 
     //------------- C.R.U.D. Insured Services -------------
 
@@ -23,21 +24,19 @@ public class InsuredService {
     }
 
     public Insured getInsuredByAmka(String amka) {
-        for (Insured insured : insuredList) {
-            if (insured.getAmka().equals(amka)) {
-                return insured;
-            }
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
+        return insuredList.stream()
+                .filter(insured -> insured.getAmka().equals(amka))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Insured with AMKA: [" + amka + "] does not exist"));
     }
 
     public Insured getInsuredByAfm(String afm) {
-        for (Insured insured : insuredList) {
-            if (insured.getAmka().equals(afm)) {
-                return insured;
-            }
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
+
+        return insuredList.stream()
+                .filter(insured -> insured.getAfm().equals(afm))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured with AFM: [" + afm + "] does not exist"));
     }
 
     public List<Insured> getAllInsured() {
@@ -58,4 +57,5 @@ public class InsuredService {
         insuredList.remove(insured);
         return insuredList;
     }
+
 }
