@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TimeslotService {
@@ -64,7 +65,7 @@ public class TimeslotService {
 
 
     //Get Timeslot by Doctor
-    public TimeslotDTO getTimeslotByDoctor(String dAmka) {
+    public List<TimeslotDTO> getTimeslotByDoctor(String dAmka) {
 
         Doctor doctor = doctorService.getDoctorByAmka(dAmka);
         if(dAmka == null){
@@ -72,11 +73,10 @@ public class TimeslotService {
                     "Doctor's AFM cannot be null.");
         }
 
-        return timeslotDTOList.stream()
-                .filter(x -> doctor.getAmka().equals(dAmka))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "There is no timeslot by Doctor with AMKA: [" + "] " + dAmka));
+        return timeslotDTOList.stream().filter(x -> x.getDoctorAmka() != null && x.getDoctorAmka().equals(dAmka))
+                .collect(Collectors.toList());
+                //orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        //       "There is no timeslot by Doctor with AMKA: [" + "] " + dAmka));
     }
 
 
@@ -89,6 +89,29 @@ public class TimeslotService {
     //Get all timeslots dto service
     public List<TimeslotDTO> getAllTimeslotsDTO() {
         return timeslotDTOList;
+    }
+
+    //Nice to have get timeslots for an entire month service
+    public List<TimeslotDTO> findTimeslotByDateRange(LocalDate startDate, LocalDate endDate) {
+
+        //create a list of Timeslots that will be found with the corresponding given date
+        List<TimeslotDTO> foundTimeslots = new ArrayList<>();
+
+        for (TimeslotDTO timeslot : timeslotDTOList) {
+            /* if timeslot found with the given date, then should return this timeslot*/
+            // + nice to have: we subtract one day from the start date
+            // and add one day to the end date to ensure that timeslots on the boundary days are included
+            if (timeslot.getDate().isAfter(startDate) && timeslot.getDate().isBefore(endDate.plusDays(1))) {
+                foundTimeslots.add(timeslot);  //add any timeslots that fall within the date range on list
+                //    timeslot.setHasReservation(true);  //to set the specific timeslot as booked
+            }
+        }
+        if (foundTimeslots.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot  not found");
+            /*with date: [" + date + "]*/
+        }
+        return foundTimeslots;
+
     }
 
 }

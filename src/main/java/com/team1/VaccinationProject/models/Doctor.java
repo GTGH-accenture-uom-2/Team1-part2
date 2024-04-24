@@ -1,8 +1,5 @@
 package com.team1.VaccinationProject.models;
 
-import jakarta.validation.OverridesAttribute;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +24,6 @@ public class Doctor{
         this.name = name;
         this.surname = surname;
         this.timeslots = new ArrayList<TimeslotDTO>();
-        this.vaccinations = new ArrayList<Vaccination>();
     }
 
 
@@ -37,10 +33,6 @@ public class Doctor{
         timeslots.add(timeslotDTO);
     }
 
-    //Method to add/assign new vaccinations to a doctor
-    public void addVaccination(Vaccination vaccination){
-        vaccinations.add(vaccination);
-    }
 
     //Getter and Setter
 
@@ -64,11 +56,4 @@ public class Doctor{
         this.timeslots = timeslots;
     }
 
-    public List<Vaccination> getVaccinations() {
-        return vaccinations;
-    }
-
-    public void setVaccinations(List<Vaccination> vaccinations) {
-        this.vaccinations = vaccinations;
-    }
 }

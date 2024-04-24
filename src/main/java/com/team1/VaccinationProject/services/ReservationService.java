@@ -21,6 +21,8 @@ public class ReservationService {
     TimeslotService timeslotService;
     @Autowired
     DoctorService doctorService;
+    @Autowired
+            VaccinationCenterService vaccinationCenterService;
 
 
 
@@ -36,24 +38,15 @@ public class ReservationService {
 
         // let's get the Insured from the Reservation class
         Insured insured = insuredService.getInsuredByAmka(amka);
-        // check if 'AMKA' is valid
-        if (amka == null || amka.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AMKA is required");
-        }
 
         // let's define the timeslot // and check timeslots' availability
         TimeslotDTO timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
-        if (timeslot == null || timeslot.getHasReservation()) { //==true
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid or already booked timeslot");
-        }
 
-        Doctor doctor = doctorService.getDoctorByAmka(dAmka); //ή με το ΑΦΜ
-        //ισως χρειαστει και το ονομα του να κανουμε στο by name doctorServices.get
-        if (doctor == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor does not exist");
-        }
+        Doctor doctor = doctorService.getDoctorByAmka(dAmka);
 
-        Reservation reservation = new Reservation(insured, timeslot, doctor);
+
+
+        Reservation reservation = new Reservation(insured, timeslot, doctor, timeslot.getVaccinationCenterCode());
         reservationList.add(reservation);
         timeslot.setHasReservation(true);   //to set the specific timeslot as booked
         return reservation;
@@ -98,9 +91,14 @@ public class ReservationService {
         if (timeslot.getHasReservation()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Timeslot has already been booked");
         }
+        if (insured.getUpdateCounter() >= 2){
+            throw  new RuntimeException("Reservation update limit reached");
+        }
 
         //Set old timeslot as free
         reservation.getTimeslot().setHasReservation(false);
+        //Increase update counter
+        insured.setUpdateCounter(insured.getUpdateCounter()+ 1);
         //Set new timeslot as reserved
         reservation.setTimeslot(timeslot);
         timeslot.setHasReservation(true);

@@ -21,7 +21,8 @@ public class Config {
     public CommandLineRunner commandLineRunner(DoctorService doctorService, InsuredService insuredService,
                                                ReservationService reservationService,
                                                TimeslotService timeslotService,
-                                               VaccinationService vaccinationService) {
+                                               VaccinationService vaccinationService
+                                               ) {
         return args -> {
 
 
@@ -44,6 +45,17 @@ public class Config {
 
 
             //Add Vaccination centers-----------------------------
+            VaccinationCenter vaccinationCenter1 = new VaccinationCenter("1", "ADRESS_1");
+            VaccinationCenter vaccinationCenter2 = new VaccinationCenter("2", "ADRESS_2");
+
+            //Assign timeslots to Vaccination centers
+            for (int i = 0; i < 5; i++) {
+                vaccinationCenter1.addTimeslot(timeslotService.getAllTimeslotsDTO().get(i));
+                vaccinationCenter2.addTimeslot(timeslotService.getAllTimeslotsDTO().get(i+5));
+            }
+
+
+
 
 
             //Add one doctor with specific data for testing purposes
@@ -75,7 +87,9 @@ public class Config {
             //Create four vaccinations
             for (int i = 0; i < 4; i++) {
                 Reservation reservation = reservationService.getReservationByAmka("AMKA_"+i);
-                vaccinationService.createVaccinationByDoctor(reservation.getTimeslot().getDate(), reservation.getTimeslot().getStartMinute(), reservation.getInsured().getAmka(), LocalDate.now().plusYears(2));
+                vaccinationService.createVaccinationByDoctor(reservation.getTimeslot().getDate(), reservation.getTimeslot().getStartMinute(),
+                        reservation.getInsured().getAmka(), LocalDate.now().plusYears(2));
+
             }
 
         };

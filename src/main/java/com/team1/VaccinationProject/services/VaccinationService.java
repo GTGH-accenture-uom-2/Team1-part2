@@ -58,7 +58,7 @@ public class VaccinationService {
         }
 
         Vaccination vaccination = new Vaccination(insured_person, doctorService.getDoctorByAmka(timeslot.getDoctorAmka()),
-                timeslot.getDate(), expirationDate); //LocalDate.now(): gives the date that you run
+                timeslot.getDate(), expirationDate, timeslot); //LocalDate.now(): gives the date that you run
         vaccination.setDoctor(doctorService.getDoctorByAmka(timeslot.getDoctorAmka())); //assign Doctor with a timeslot
         vaccinationList.add(vaccination);
         return vaccination;

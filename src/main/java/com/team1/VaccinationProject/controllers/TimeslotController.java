@@ -40,7 +40,7 @@ public class TimeslotController {
 
     //Get Timeslot by Doctor
     @GetMapping("/doctor")
-    public TimeslotDTO getTimeslotByDoctor(@RequestParam String dAmka) {
+    public List<TimeslotDTO> getTimeslotByDoctor(@RequestParam String dAmka) {
         return timeslotService.getTimeslotByDoctor(dAmka);
     }
 
@@ -54,6 +54,14 @@ public class TimeslotController {
     @GetMapping("/allDto")
     public List<TimeslotDTO> getAllTimeslotsDTO() {
         return timeslotService.getAllTimeslotsDTO();
+    }
+
+
+    //Nice to have: get timeslots for an entire month
+    @GetMapping("/listBydateRange")
+    public List<TimeslotDTO> findTimeslotByDateRange(@RequestParam LocalDate startDate,
+                                                  @RequestParam LocalDate endDate) {
+        return timeslotService.findTimeslotByDateRange(startDate, endDate);
     }
 
 }

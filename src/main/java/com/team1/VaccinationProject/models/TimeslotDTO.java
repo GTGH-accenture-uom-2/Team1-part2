@@ -9,8 +9,9 @@ public class TimeslotDTO {
     private String startMinute;
     private String endMinute;
     private Boolean hasReservation = false;
+    private String vaccinationCenterCode;
 
-    String doctorAmka;
+    private String doctorAmka;
 
     public TimeslotDTO(LocalDate date, String startMinute, String endMinute) {
         this.date = date;
@@ -57,5 +58,13 @@ public class TimeslotDTO {
 
     public void setHasReservation(java.lang.Boolean hasReservation) {
         this.hasReservation = hasReservation;
+    }
+
+    public String getVaccinationCenterCode() {
+        return vaccinationCenterCode;
+    }
+
+    public void setVaccinationCenterCode(String vaccinationCenterCode) {
+        this.vaccinationCenterCode = vaccinationCenterCode;
     }
 }
