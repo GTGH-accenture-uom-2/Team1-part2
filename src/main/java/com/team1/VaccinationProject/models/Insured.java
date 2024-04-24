@@ -22,11 +22,11 @@ public class Insured {
         this.email = email;
     }
 
-    //2. Constructor no. 2 (overload - use for main class)
+   /* //2. Constructor no. 2 (overload - use for main class)
     public Insured(String name, LocalDate birthday){
         this.name = name;
         this.birthday = birthday;
-    }
+    }*/
 
     //3. Constructor no. 3
     public Insured() {}

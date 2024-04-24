@@ -4,6 +4,7 @@ import com.team1.VaccinationProject.services.InsuredService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,7 +38,15 @@ public class InsuredController {
     }
 
 
-//    @PutMapping
+
+
+    @DeleteMapping
+    public List<Insured> deleteInsured(@RequestParam String amka){
+        return insuredService.deleteInsured(amka);
+    }
+
+
+    //    @PutMapping
 //    public Insured updateInsured(@RequestParam String amka,
 //                                 @RequestParam(required = false) String name,
 //                                 @RequestParam(required = false) String surname,

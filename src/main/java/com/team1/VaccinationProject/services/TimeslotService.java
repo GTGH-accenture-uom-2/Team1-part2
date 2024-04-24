@@ -1,4 +1,5 @@
 package com.team1.VaccinationProject.services;
+
 import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Timeslot;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,8 @@ public class TimeslotService {
         return timeslotList;
     }
 
+}
+
 
 //    public Timeslot updateTimeslot(LocalDate date, int hour, int minutes, int startMinute, int endMinute, Doctor doctor) {
 //        Timeslot timeslot = getTimeslotByDate(date);
@@ -89,6 +92,4 @@ public class TimeslotService {
 //        Timeslot timeslot = getTimeslotByDate(date);
 //        timeslotList.remove(timeslot);
 //        return timeslotList;
-//    }
-
-}
+//    }}

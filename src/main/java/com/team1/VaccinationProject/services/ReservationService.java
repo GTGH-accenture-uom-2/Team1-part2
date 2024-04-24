@@ -1,4 +1,5 @@
 package com.team1.VaccinationProject.services;
+
 import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Insured;
 import com.team1.VaccinationProject.models.Reservation;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -23,9 +25,12 @@ public class ReservationService {
     @Autowired
     DoctorService doctorService;
 
+
     List<Reservation> reservationList = new ArrayList<>();
 
+
     //------------- C.R.U.D. Reservation Services -------------
+
 
     //1. create the following method - connected with method inside 'ReservationController'
 
@@ -39,7 +44,7 @@ public class ReservationService {
         }
 
         // let's define the timeslot // and check timeslots' availability
-        Timeslot timeslot = timeslotService.getTimeslotByDateHour(date,startMinute);
+        Timeslot timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
         if (timeslot == null || timeslot.getHasReservation()) { //==true
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid or already booked timeslot");
         }
@@ -84,6 +89,19 @@ public class ReservationService {
         return reservationList;
     }
 
+    public Reservation updateReservation(LocalDate date, Insured insured, Timeslot timeslot) {
+        Reservation reservation = getReservationByDate(date);
+        if (insured != null) reservation.setInsured(insured);
+        if (timeslot != null) reservation.setTimeslot(timeslot);
+        return reservation;
+    }
+
+    public List<Reservation> deleteReservation(String amka) {
+        Reservation reservation = getReservationByAmka(amka);
+        reservationList.remove(reservation);
+        return reservationList;
+    }
+
 
 //--------------------------------------------------------------------------------------------------------------------
     //eleni
@@ -113,7 +131,7 @@ public class ReservationService {
         }
         return foundReservations;
     }
-
+}
 //    public Reservation updateReservation(String amka, LocalDate date, String startMinute) {
 //        List<Timeslot> timeslotList = new ArrayList<>();
 //        // check if 'AMKA' is valid
@@ -139,7 +157,7 @@ public class ReservationService {
 //
 //
 //    }
-}
+
 
 //    public Reservation updateReservation(LocalDate date, Insured insured, Timeslot timeslot) {
 //        Reservation reservation = getReservationByDate(date);

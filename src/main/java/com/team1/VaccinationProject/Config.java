@@ -1,4 +1,5 @@
 package com.team1.VaccinationProject;
+
 import com.team1.VaccinationProject.models.*;
 import com.team1.VaccinationProject.services.*;
 import org.springframework.boot.CommandLineRunner;
@@ -7,6 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Configuration
 public class Config {

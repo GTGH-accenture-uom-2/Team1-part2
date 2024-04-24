@@ -2,6 +2,7 @@ package com.team1.VaccinationProject.services;
 
 import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Insured;
+import com.team1.VaccinationProject.models.VaccinationStatusDTO;
 import com.team1.VaccinationProject.models.Timeslot;
 import com.team1.VaccinationProject.models.Vaccination;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Service
 public class VaccinationService {
+
     @Autowired
     InsuredService insuredService;
     @Autowired
@@ -45,7 +47,6 @@ public class VaccinationService {
         vaccinationList.add(vaccination);
         return vaccination;
     }
-
 
     public Vaccination getVaccinationByDate(LocalDate date) {
         for (Vaccination vaccination : vaccinationList) {
@@ -83,9 +84,14 @@ public class VaccinationService {
         return vaccinationList;
     }
 
-
-
-
-
-
+    public VaccinationStatusDTO checkVaccinationStatusByAmka(String amka) {
+        Vaccination vaccination = getVaccinationByAmka(amka);
+        if(vaccination.getExpirationDate().isAfter(LocalDate.now())){
+            return new VaccinationStatusDTO(true, vaccination.getExpirationDate());
+        }
+        else if (vaccination.getExpirationDate().isBefore(LocalDate.now())) {
+            return new VaccinationStatusDTO(false, vaccination.getExpirationDate());
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
 }

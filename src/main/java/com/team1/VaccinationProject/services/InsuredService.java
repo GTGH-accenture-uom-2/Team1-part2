@@ -1,8 +1,12 @@
 package com.team1.VaccinationProject.services;
+
 import com.team1.VaccinationProject.models.Insured;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+
+import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,27 +19,16 @@ public class InsuredService {
     //------------- C.R.U.D. Insured Services -------------
 
     public List<Insured> createInsured(Insured insured) {
-
         insuredList.add(insured);
         return insuredList;
     }
 
     public Insured getInsuredByAmka(String amka) {
-
         return insuredList.stream()
                 .filter(insured -> insured.getAmka().equals(amka))
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                                         "Insured with AMKA: [" + amka + "] does not exist"));
-
-                //alternative way:
-                /*  for (Insured insured : insuredList) {
-                    if (insured.getAmka().equals(amka)) {
-                        return insured;
-                    }
-                }
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured does not exist");
-                */
+                        "Insured with AMKA: [" + amka + "] does not exist"));
     }
 
     public Insured getInsuredByAfm(String afm) {
@@ -43,11 +36,25 @@ public class InsuredService {
         return insuredList.stream()
                 .filter(insured -> insured.getAfm().equals(afm))
                 .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                                                "Insured with AFM: [" + afm + "] does not exist"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Insured with AFM: [" + afm + "] does not exist"));
     }
 
     public List<Insured> getAllInsured() {
+        return insuredList;
+    }
+
+    public Insured updateInsured(String amka, String name, String surname, LocalDate birthday, String email) {
+        Insured insured =  getInsuredByAmka(amka);
+        if (name != null) insured.setName(name);
+        if (surname != null) insured.setSurname(surname);
+        if (birthday != null) insured.setBirthday(birthday);
+        if (email != null) insured.setEmail(email);
+        return insured;
+    }
+
+    public List<Insured> deleteInsured(String amka) {
+        Insured insured = getInsuredByAmka(amka);
+        insuredList.remove(insured);
         return insuredList;
     }
 

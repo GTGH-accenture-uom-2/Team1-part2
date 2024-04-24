@@ -1,5 +1,8 @@
 package com.team1.VaccinationProject.controllers;
+import com.team1.VaccinationProject.models.Insured;
 import com.team1.VaccinationProject.models.Reservation;
+
+import com.team1.VaccinationProject.models.Timeslot;
 import com.team1.VaccinationProject.services.DoctorService;
 import com.team1.VaccinationProject.services.InsuredService;
 import com.team1.VaccinationProject.services.ReservationService;
@@ -14,9 +17,12 @@ import java.util.List;
 @RequestMapping("/reservation")
 public class ReservationController {
 
+
+    //also, need access to the following Services:
     @Autowired
     ReservationService reservationService;
-    //also, need access to the following Services:
+
+
     @Autowired
     InsuredService insuredService;
     @Autowired
@@ -24,34 +30,48 @@ public class ReservationController {
     @Autowired
     DoctorService doctorService;
 
+
     //------------- C.R.U.D. Reservation Controller -------------
 
     //1. firstly, let's create Reservations (empty items)
     @PostMapping
-    public Reservation createReservation(@RequestParam(required = true) String amka,
-                                         @RequestParam(required = true) LocalDate date,
-                                         @RequestParam(required = true) String startMinute,
-                                         @RequestParam(required = true) String dAmka) {
+    public Reservation createReservation(@RequestParam String amka,
+                                         @RequestParam LocalDate date,
+                                         @RequestParam String startMinute,
+                                         @RequestParam String dAmka) {
 
         return reservationService.createReservation(amka, date, startMinute, dAmka);
     }
 
-    //by Insured' AMKA
+    //by Insured AMKA
     @GetMapping("/amka")
     public Reservation getReservationByAmka(@RequestParam String amka) {
         return reservationService.getReservationByAmka(amka);
     }
 
-    //by Timeslot' Date
+    //by Timeslot Date
     @GetMapping("/date")
     public Reservation getReservationByDate(@RequestParam LocalDate date){
         return reservationService.getReservationByDate(date);
     }
 
     @GetMapping("/all")
-    public List<Reservation> getAllReservations() {
+    public List<Reservation> getAllReservations(){
         return reservationService.getAllReservations();
     }
+
+    @PutMapping
+    public Reservation updateReservation(@RequestParam LocalDate date,
+                                         @RequestBody(required = false) Insured insured,
+                                         @RequestBody(required = false) Timeslot timeslot){
+        return reservationService.updateReservation(date, insured, timeslot);
+    }
+
+    @DeleteMapping
+    public List<Reservation> deleteReservation(@RequestParam String amka){
+        return reservationService.deleteReservation(amka);
+    }
+
 
 //    //method to update a reservation UP TO TWO TIMES
 //    @PutMapping("/update")
@@ -64,6 +84,7 @@ public class ReservationController {
 //    public Reservation addReservation(@RequestBody Reservation reservation) {
 //
 //    }
+
 
 
 //    @DeleteMapping

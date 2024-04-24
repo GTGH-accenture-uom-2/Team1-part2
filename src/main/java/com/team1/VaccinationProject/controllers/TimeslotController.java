@@ -1,4 +1,6 @@
 package com.team1.VaccinationProject.controllers;
+
+import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Timeslot;
 import com.team1.VaccinationProject.services.TimeslotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,7 @@ public class TimeslotController {
         return timeslotService.getAllTimeslots();
     }
 
+}
 
 
 //    //Update timeslot date variable to localdate
@@ -65,4 +68,4 @@ public class TimeslotController {
 //        return timeslotServices.deleteTimeslot(date);
 //    }
 
-}
+
