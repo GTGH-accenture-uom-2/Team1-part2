@@ -26,6 +26,8 @@ public class Doctor{
         this.timeslots = new ArrayList<TimeslotDTO>();
     }
 
+    public Doctor(){}
+
 
     //Method to add/assign new timeslots to a doctor
     public void addTimeslot(TimeslotDTO timeslotDTO){

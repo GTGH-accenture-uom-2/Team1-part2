@@ -38,8 +38,8 @@ public class Config {
             //Add one timeslot with specific data for testing purposes
             //timeslotService.createTimeslot(new Timeslot(LocalDate.of(2020, 1, 1), "11:00"));
 
-            //Add ten timeslots, dates 1-1-2020 to 9-1-2020, start minute 10:00
-            for (int i = 0; i < 10; i++) {
+            //Add ten timeslots, dates 1-1-2020 to 7-1-2020, start minute 10:00
+            for (int i = 0; i < 8; i++) {
                 timeslotService.createTimeslot(new Timeslot(LocalDate.of(2020, 1, 1+i), "10:00"));
             }
 
@@ -49,9 +49,9 @@ public class Config {
             VaccinationCenter vaccinationCenter2 = new VaccinationCenter("2", "ADRESS_2");
 
             //Assign timeslots to Vaccination centers
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 vaccinationCenter1.addTimeslot(timeslotService.getAllTimeslotsDTO().get(i));
-                vaccinationCenter2.addTimeslot(timeslotService.getAllTimeslotsDTO().get(i+5));
+                vaccinationCenter2.addTimeslot(timeslotService.getAllTimeslotsDTO().get(i+4));
             }
 
 

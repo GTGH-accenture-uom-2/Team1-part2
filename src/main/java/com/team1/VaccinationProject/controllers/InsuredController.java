@@ -40,24 +40,6 @@ public class InsuredController {
         return insuredService.getAllInsured();
     }
 
-
-
-    //POSSIBLE REMOVE
-    @DeleteMapping
-    public List<Insured> deleteInsured(@RequestParam String amka){
-        return insuredService.deleteInsured(amka);
-    }
-
-    //POSSIBLE REMOVE
-    @PutMapping
-    public Insured updateInsured(@RequestParam String amka,
-                                 @RequestParam(required = false) String name,
-                                 @RequestParam(required = false) String surname,
-                                 @RequestParam(required = false) LocalDate birthday,
-                                 @RequestParam(required = false) String email){
-
-        return insuredService.updateInsured(amka, name, surname, birthday, email);
-    }
 }
 
 

@@ -122,7 +122,7 @@ public class VaccinationService {
             catch (Exception e){
                 System.out.println(e);
             }
-            return "File Downloaded";
+            return "File Created";
         }
         else if (vaccination.getExpirationDate().isBefore(LocalDate.now())) {
             try {
@@ -132,7 +132,7 @@ public class VaccinationService {
             catch (Exception e){
                 System.out.println(e);
             }
-            return "File Downloaded";
+            return "File Created";
 
         }
         else
