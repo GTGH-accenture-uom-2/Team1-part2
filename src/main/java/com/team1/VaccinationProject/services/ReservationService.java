@@ -3,13 +3,16 @@ package com.team1.VaccinationProject.services;
 import com.team1.VaccinationProject.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,8 +43,16 @@ public class ReservationService {
         // let's get the Insured from the Reservation class
         Insured insured = insuredService.getInsuredByAmka(amka);
 
+        for (Reservation reservation: reservationList){
+            if (reservation.getInsured().getAmka().equals(amka)){
+                throw new RuntimeException("Insured already has reservation");
+            }
+        }
+
+
         // let's define the timeslot // and check timeslots' availability
         TimeslotDTO timeslot = timeslotService.getTimeslotByDateHour(date, startMinute);
+
 
         Doctor doctor = doctorService.getDoctorByAmka(dAmka);
 
@@ -138,4 +149,56 @@ public class ReservationService {
         }
         return foundReservations;
     }
+
+    //Nice to have pagination service
+    public ResponseEntity<Map<String, Object>> getAllDoctorsReservationsPagination(String doctorAmka, LocalDate date, int pageNumber, int pageSize) {
+
+        //sort the list of reservations before pagination
+        List<Reservation> reservationListCopy = new ArrayList<>(reservationList);
+        reservationListCopy.sort((r1, r2) -> {
+            int dateComparison = r1.getTimeslot().getDate().compareTo(r2.getTimeslot().getDate());
+            if (dateComparison == 0) {
+                return r1.getDoctor().getAmka().compareTo(r2.getDoctor().getAmka());
+            } else {
+                return dateComparison;
+            }
+        });
+
+        List<Reservation> foundReservations = new ArrayList<>();
+        int startIndex = (pageNumber - 1) * pageSize; //pageNumber->number of the page. first page is the 1 not 0.
+        // pageSize->maximum number of reservations in the page
+        //startIndex->firstReservation of the page
+        int endIndex = startIndex + pageSize;
+
+        //pagination
+        for (int i = 0; i < reservationListCopy.size(); i++) {
+            Reservation reservation = reservationListCopy.get(i);
+            if (reservation.getDoctor().getAmka().equals(doctorAmka) && reservation.getTimeslot().getDate().equals(date)) {
+                if (i >= startIndex && i < endIndex) {
+                    foundReservations.add(reservation);
+                }
+                if (foundReservations.size() == pageSize) {
+                    break;
+                }
+            }
+        }
+
+        int totalReservations = reservationListCopy.size();
+        int numberOfPages = (int) Math.ceil((double) totalReservations / pageSize); //calculate total number of pages.
+        // math.ceil()->round a number up to its nearest integer
+
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("reservations", foundReservations);
+        response.put("numberOfPages", numberOfPages);
+        response.put("pageNumber", pageNumber);
+        response.put("totalReservations", totalReservations);
+
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+        //return foundReservations;
+    }
+
+
+
 }

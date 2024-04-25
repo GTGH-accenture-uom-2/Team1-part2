@@ -58,18 +58,5 @@ public class DoctorController {
     }
 
 
-//----------------------POSSIBLE MOVE TO RESERVATION CONTROLLER--------------------------------
-    //Get all reservations by doctor amka
-    @GetMapping("/allreservations")
-    public List<Reservation> getDoctorReservations(@RequestParam String amka) {
-        return reservationService.getAllDoctorsReservations(amka);
-    }
-
-    //Get all reservations of specific date by doctor amka
-    @GetMapping("/dayreservations")
-    public List<Reservation> getAllDoctorsReservationsByDay(@RequestParam String amka, @RequestParam LocalDate date) {
-        return reservationService.getAllDoctorsReservationsByDay(amka, date);
-    }
-
 
 }

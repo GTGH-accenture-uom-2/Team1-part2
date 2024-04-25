@@ -45,26 +45,4 @@ public class InsuredService {
         return insuredList;
     }
 
-
-    //POSSIBLE REMOVE-------------
-    //Delete Insured
-    public List<Insured> deleteInsured(String amka) {
-        Insured insured = getInsuredByAmka(amka);
-        insuredList.remove(insured);
-        return insuredList;
-    }
-
-    //POSSIBLE REMOVE-------------
-    //Update Insured
-    public Insured updateInsured(String amka, String name, String surname, LocalDate birthday, String email) {
-        Insured insured =  getInsuredByAmka(amka);
-        if (name != null) insured.setName(name);
-        if (surname != null) insured.setSurname(surname);
-        if (birthday != null) insured.setBirthday(birthday);
-        if (email != null) insured.setEmail(email);
-        return insured;
-    }
-
-
-
 }

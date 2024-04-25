@@ -4,13 +4,10 @@ import java.time.LocalDate;
 public class TimeslotDTO {
 
     private LocalDate date;
-    // POSSIBLE REMOVE private int hour;
-    // POSSIBLE REMOVE private int minutes;
     private String startMinute;
     private String endMinute;
     private Boolean hasReservation = false;
     private String vaccinationCenterCode;
-
     private String doctorAmka;
 
     public TimeslotDTO(LocalDate date, String startMinute, String endMinute) {

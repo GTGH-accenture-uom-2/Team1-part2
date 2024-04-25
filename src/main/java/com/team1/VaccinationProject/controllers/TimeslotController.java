@@ -65,23 +65,3 @@ public class TimeslotController {
     }
 
 }
-
-
-//    //Update timeslot date variable to localdate
-//    @PutMapping
-//    public Timeslot updateTimeslot(@RequestParam LocalDate date,
-//                                   @RequestParam(required = false) int hour,
-//                                   @RequestParam(required = false) int minutes,
-//                                   @RequestParam(required = false) int startMinute,
-//                                   @RequestParam(required = false) int endMinute,
-//                                   @RequestParam(required = false) Doctor doctor) {
-//
-//        return timeslotServices.updateTimeslot(date, hour ,minutes, startMinute, endMinute, doctor);
-//    }
-
-//    @DeleteMapping
-//    public List<Timeslot> deleteTimeslot( @RequestParam LocalDate date){
-//        return timeslotServices.deleteTimeslot(date);
-//    }
-
-

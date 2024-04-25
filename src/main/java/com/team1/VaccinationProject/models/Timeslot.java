@@ -3,24 +3,19 @@ import java.time.LocalDate;
 
 public class Timeslot {
     private LocalDate date;
-    // POSSIBLE REMOVE private int hour;
-    // POSSIBLE REMOVE private int minutes;
     private String startMinute;
     private String endMinute;
     private Doctor doctor;
     private Boolean hasReservation = false;
 
-/*
-    public Timeslot(LocalDate date, int hour,
-                    int minutes, String startMinute, String endMinute, Doctor doctor, Boolean hasReservation){
+    public Timeslot(LocalDate date, String startMinute, Doctor doctor, Boolean hasReservation){
         this.date = date;
-        this.hour = hour;
-        this.minutes = minutes;
         this.startMinute = startMinute;
-        this.endMinute = endMinute;
+        this.endMinute = startMinute.replaceAll(":00", ":30");
         this.doctor = doctor;
         this.hasReservation = hasReservation;
-    }*/
+        doctor.addTimeslot(this.toDto());
+    }
 
 
     public Timeslot(LocalDate date, String startMinute) {

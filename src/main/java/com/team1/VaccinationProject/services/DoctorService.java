@@ -39,7 +39,7 @@ public class DoctorService {
         return doctorList;
     }
 
-    //POSSIBLE REMOVE----------
+
     //Update doctor
     public Doctor updateDoctor(String amka, String name, String surname) {
         Doctor doctor = getDoctorByAmka(amka);
@@ -49,7 +49,6 @@ public class DoctorService {
 
     }
 
-    //POSSIBLE REMOVE----------
     //Delete doctor
     public List<Doctor> deleteDoctor(String amka) {
         Doctor doctor = getDoctorByAmka(amka);

@@ -57,13 +57,13 @@ public class VaccinationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Date does not match reservation");
         }
       
-      
-        vaccination.setDoctor(doctorService.getDoctorByAmka(timeslot.getDoctorAmka())); //assign Doctor with a timeslot
 
         
         Vaccination vaccination = new Vaccination(insured_person, doctorService.getDoctorByAmka(timeslot.getDoctorAmka()),
                 timeslot.getDate(), expirationDate, timeslot); //LocalDate.now(): gives the date that you run
-        
+
+
+        vaccination.setDoctor(doctorService.getDoctorByAmka(timeslot.getDoctorAmka())); //assign Doctor with a timeslot
 
         //Vaccination vaccination = new Vaccination(insured_person, timeslot.getDoctor(),
         //        date, expirationDate);
@@ -130,7 +130,7 @@ public class VaccinationService {
             catch (Exception e){
                 System.out.println(e);
             }
-            return "File Downloaded";
+            return "File Created";
         }
         else if (vaccination.getExpirationDate().isBefore(LocalDate.now())) {
             try {
@@ -140,7 +140,7 @@ public class VaccinationService {
             catch (Exception e){
                 System.out.println(e);
             }
-            return "File Downloaded";
+            return "File Created";
 
         }
         else
