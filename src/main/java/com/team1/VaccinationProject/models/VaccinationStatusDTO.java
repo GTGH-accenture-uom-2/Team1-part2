@@ -23,6 +23,9 @@ public class VaccinationStatusDTO {
         this.expirationDate = expirationDate;
     }
 
+    //Empty constructor
+    public VaccinationStatusDTO(){}
+
 
     //Method to create QR code
     public static void createQR(String data, String path, String charset, Map hashMap) throws WriterException, IOException {

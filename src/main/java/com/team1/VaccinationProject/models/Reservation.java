@@ -15,6 +15,7 @@ public class Reservation {
         this.vaccinationCenterCode = vaccinationCenterCode;
     }
 
+    //Empty constructor
     public Reservation() {}
 
 

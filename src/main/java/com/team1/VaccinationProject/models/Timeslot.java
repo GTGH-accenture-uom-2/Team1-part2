@@ -1,4 +1,5 @@
 package com.team1.VaccinationProject.models;
+import java.sql.Time;
 import java.time.LocalDate;
 
 public class Timeslot {
@@ -23,6 +24,9 @@ public class Timeslot {
         this.startMinute = startMinute;
         this.endMinute = startMinute.replaceAll(":00", ":30");
     }
+
+    //Empty constructor
+    public Timeslot(){}
 
 
     //Method to convert timeslot to timeslotDto

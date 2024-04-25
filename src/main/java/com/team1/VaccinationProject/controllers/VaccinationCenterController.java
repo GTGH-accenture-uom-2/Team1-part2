@@ -17,14 +17,9 @@ public class VaccinationCenterController {
         return vaccinationCenterService.createVaccinationCenter(vaccinationCenter);
     }
 
-    @GetMapping("/code")
+    @GetMapping("/byCode")
     public VaccinationCenter getVaccinationCenterByCode(@RequestParam String code){
         return vaccinationCenterService.getVaccinationCenterByCode(code);
     }
-
-    //@GetMapping("/code")
-    //public String getCenterCode(){
-    //
-    //}
 
 }
