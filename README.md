@@ -14,21 +14,20 @@ Screens in brief:
   
 |Vaccination status Page|
 + Viewing vaccination status and expiry date of vaccination coverage 
-  + by filling in the form with field: Insures' AMKA
-    > Nice to have: QR code for the vaccination status
+  + by filling in the form with field: Insured' AMKA
+  > Nice to have: QR code for the vaccination status
 
 |Search page for upcoming vaccinations Page|
 + View all upcoming vaccination appointments
 + View the appointments for the specific day
     > Nice to have: in case of multiple appointments not to be refunded all together but to be applied
 pagination
-    > Create a PDF for the doctor's day appointments
+    
+    > Nice to have: Create a PDF for the doctor's day appointments
 
 |Vaccination declaration Page|
 + Vaccination declaration
   + by filling in the form with field: Timeslot, Insured' AMKA, Duration of cover (expiry date)
-
-
 
 > This is about the 2nd part of the Project, which includes the _Back-end implementation_ in JAVA Framework, Spring Boot.
 
