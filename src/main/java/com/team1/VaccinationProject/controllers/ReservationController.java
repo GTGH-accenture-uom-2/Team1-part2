@@ -106,10 +106,10 @@ public class ReservationController {
 
     //Nice to have
     @GetMapping("/pdf")
-    public void createReservationPdf(@RequestParam String amka,
+    public String createReservationPdf(@RequestParam String amka,
                                      @RequestParam LocalDate date)
             throws DocumentException, IOException {
-        reservationService.createReservationPdf(amka,date);
+        return  reservationService.createReservationPdf(amka,date);
     }
 
 

@@ -210,7 +210,7 @@ public class ReservationService {
         //return foundReservations;
     }
 
-    public void createReservationPdf(String doctorAmka, LocalDate date) throws DocumentException, IOException, FileNotFoundException {
+    public String createReservationPdf(String doctorAmka, LocalDate date) throws DocumentException, IOException, FileNotFoundException {
         List<Reservation> foundReservations = getAllDoctorsReservationsByDay(doctorAmka,date);
         Document document = new Document(PageSize.A4);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("reservations.pdf"));
@@ -242,6 +242,7 @@ public class ReservationService {
         }
         document.add(table);
         document.close();
+        return "Pdf Downloaded";
     }
 
 
