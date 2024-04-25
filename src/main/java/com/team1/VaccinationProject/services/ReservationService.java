@@ -15,6 +15,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.itextpdf.text.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+
+
 @Service
 public class ReservationService {
 
@@ -198,6 +209,45 @@ public class ReservationService {
         return new ResponseEntity<>(response, HttpStatus.OK);
         //return foundReservations;
     }
+
+    public void createReservationPdf(String doctorAmka, LocalDate date) throws DocumentException, IOException, FileNotFoundException {
+        List<Reservation> foundReservations = getAllDoctorsReservationsByDay(doctorAmka,date);
+        Document document = new Document(PageSize.A4);
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("reservations.pdf"));
+        document.open();
+
+        Font headerFont = FontFactory.getFont("Arial", 16, Font.BOLD);
+        Paragraph header = new Paragraph("Reservations for Doctor " + doctorAmka + " on " + date, headerFont);
+        header.setAlignment(Element.ALIGN_CENTER);
+        document.add(header);
+
+        PdfPTable table = new PdfPTable(2);
+        table.setWidthPercentage(100);
+        table.setSpacingBefore(10f);
+        table.setSpacingAfter(10f);
+
+        PdfPCell insuredCell = new PdfPCell(new Phrase("Insured", FontFactory.getFont("Arial", 12, Font.BOLD)));
+        insuredCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(insuredCell);
+
+        PdfPCell startMinuteCell = new PdfPCell(new Phrase("startMinute", FontFactory.getFont("Arial", 12, Font.BOLD)));
+        startMinuteCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(startMinuteCell);
+
+        for (Reservation reservation : foundReservations) {
+            PdfPCell insured = new PdfPCell(new Phrase(reservation.getInsured().getName()));
+            table.addCell(insured);
+            PdfPCell startMinute = new PdfPCell(new Phrase(reservation.getTimeslot().getStartMinute()));
+            table.addCell(startMinute);
+        }
+        document.add(table);
+        document.close();
+    }
+
+
+
+
+
 
 
 

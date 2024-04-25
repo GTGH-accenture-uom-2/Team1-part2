@@ -1,4 +1,5 @@
 package com.team1.VaccinationProject.controllers;
+import com.itextpdf.text.DocumentException;
 import com.team1.VaccinationProject.models.Insured;
 import com.team1.VaccinationProject.models.Reservation;
 
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.parser.Entity;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +74,6 @@ public class ReservationController {
         return reservationService.updateReservation(amka, newdate, startMinute);
     }
 
-
     @DeleteMapping
     public List<Reservation> deleteReservation(@RequestParam String amka){
         return reservationService.deleteReservation(amka);
@@ -102,5 +103,15 @@ public class ReservationController {
 
         return reservationService.getAllDoctorsReservationsPagination(amka, date, pageNumber, pageSize);
     }
+
+    //Nice to have
+    @GetMapping("/pdf")
+    public void createReservationPdf(@RequestParam String amka,
+                                     @RequestParam LocalDate date)
+            throws DocumentException, IOException {
+        reservationService.createReservationPdf(amka,date);
+    }
+
+
 
 }
