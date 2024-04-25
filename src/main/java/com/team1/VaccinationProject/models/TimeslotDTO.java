@@ -16,6 +16,9 @@ public class TimeslotDTO {
         this.endMinute = endMinute;
     }
 
+    //Empty constructor
+    public TimeslotDTO(){}
+
 
     public String getDoctorAmka() {
         return doctorAmka;

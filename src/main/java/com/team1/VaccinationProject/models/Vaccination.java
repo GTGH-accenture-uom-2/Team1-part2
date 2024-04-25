@@ -21,6 +21,9 @@ public class Vaccination {
         this.timeslotDTO = timeslotDTO;
     }
 
+    //Empty constructor
+    public Vaccination(){}
+
     //Method to assign a doctor to this vaccination
     public void assignDoctor(Doctor dr) {
         this.doctor = dr;

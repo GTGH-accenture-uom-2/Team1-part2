@@ -26,6 +26,7 @@ public class Doctor{
         this.timeslots = new ArrayList<TimeslotDTO>();
     }
 
+    //Empty constructor
     public Doctor(){}
 
 

@@ -1,6 +1,5 @@
 package com.team1.VaccinationProject.controllers;
 
-import com.team1.VaccinationProject.models.Doctor;
 import com.team1.VaccinationProject.models.Timeslot;
 import com.team1.VaccinationProject.models.TimeslotDTO;
 import com.team1.VaccinationProject.services.TimeslotService;
@@ -26,30 +25,28 @@ public class TimeslotController {
     }
 
     //List Timeslots by date
-    @GetMapping("/listbydate")
+    @GetMapping("/listByDate")
     public List<TimeslotDTO> findTimeslotByDate(@RequestParam LocalDate date) {
         return timeslotService.findTimeslotByDate(date);
     }
 
     //Get Timeslot with specific date and hour
-    @GetMapping("/onebydate")
+    @GetMapping("/listByDateHour")
     public TimeslotDTO getTimeslotByDateHour(@RequestParam LocalDate date,
                                           @RequestParam String startMinute) {
         return timeslotService.getTimeslotByDateHour(date, startMinute);
     }
 
     //Get Timeslot by Doctor
-    @GetMapping("/doctor")
+    @GetMapping("/byDoctor")
     public List<TimeslotDTO> getTimeslotByDoctor(@RequestParam String dAmka) {
         return timeslotService.getTimeslotByDoctor(dAmka);
     }
-
 
     @GetMapping("/all")
     public List<Timeslot> getAllTimeslots() {
         return timeslotService.getAllTimeslots();
     }
-
 
     @GetMapping("/allDto")
     public List<TimeslotDTO> getAllTimeslotsDTO() {
@@ -58,7 +55,7 @@ public class TimeslotController {
 
 
     //Nice to have: get timeslots for an entire month
-    @GetMapping("/listBydateRange")
+    @GetMapping("/listByDateRange")
     public List<TimeslotDTO> findTimeslotByDateRange(@RequestParam LocalDate startDate,
                                                   @RequestParam LocalDate endDate) {
         return timeslotService.findTimeslotByDateRange(startDate, endDate);

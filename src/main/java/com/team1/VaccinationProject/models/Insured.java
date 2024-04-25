@@ -11,9 +11,8 @@ public class Insured {
     private LocalDate birthday;
     private String email;
     private int updateCounter = 0;
-    //private Boolean hasReservation;  //boolean variable to show if a citizen has a reservation for vaccination
 
-    //Constructor no. 1
+
     public Insured(String afm, String amka, String name, String surname, LocalDate birthday, String email) {
         this.afm = afm;
         this.amka = amka;
@@ -22,6 +21,9 @@ public class Insured {
         this.birthday = birthday;
         this.email = email;
     }
+
+    //Empty constructor
+    public Insured(){}
 
     //Getters and Setters
     public String getAfm() {
